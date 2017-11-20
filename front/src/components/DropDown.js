@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import '../paper.css';
 import statuses from '../tempData/statuses.js'
+import axios from 'axios';
 
 
 class DropDown extends Component {
@@ -15,34 +16,45 @@ class DropDown extends Component {
       timeInCurrentStatus: '',
       counter: 0,
       snapshotStatus: null,
-      snapshotTimestamp: null
+      snapshotTimestamp: null,
+      userID: 12
     }
   }
 
 
-  componentDidMount() {
-    setInterval( () => {
-      this.setState({
-        currentTimestamp: new Date(),
-        currentWeekday: new Date().getDay(),
-        currentFullYear: new Date().getFullYear(),
-        currentMonth: new Date().getMonth(),
-        currentDate: new Date().getDate(),
-        currentHours: new Date().getHours(),
-        currentMinutes: new Date().getMinutes(),
-        currentSeconds: new Date().getSeconds(),
-        counter: this.state.counter + 1,
-      })
-    },1000)
+componentDidMount() {
+  setInterval(() => {
+    this.setState({
+      currentTimestamp: new Date(),
+      currentWeekday: new Date().getDay(),
+      currentFullYear: new Date().getFullYear(),
+      currentMonth: new Date().getMonth(),
+      currentDate: new Date().getDate(),
+      currentHours: new Date().getHours(),
+      currentMinutes: new Date().getMinutes(),
+      currentSeconds: new Date().getSeconds(),
+      counter: this.state.counter + 1
+    });
+    if (this.state.currentSeconds % 10 === 0) {
+      this.setState({snapshotStatus: this.state.status, snapshotTimestamp: this.state.currentTimestamp});
+      this.createSnapshot();
+    };
+  }, 1000)
+}
 
-    setInterval( () => {
-      if (this.state.currentSeconds % 10 === 0) {
-      this.setState({
-        snapshotStatus: this.state.status,
-        snapshotTimestamp: this.state.currentTimestamp
-      })
-    }},1000)
-  }
+
+
+    createSnapshot = () => {
+      let {snapshotTimestamp, snapshotStatus, userID} = this.state;
+      axios
+        .post("http://localhost:4000/api/snapshots", {
+          snapshotTimestamp,
+          snapshotStatus,
+          userID
+        })
+    }
+
+
 
   searchStatuses = (searchInput) => {
     console.log(searchInput)
