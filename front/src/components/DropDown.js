@@ -35,10 +35,10 @@ componentDidMount() {
       currentSeconds: new Date().getSeconds(),
       counter: this.state.counter + 1
     });
-    if (this.state.currentSeconds % 10 === 0) {
-      this.setState({snapshotStatus: this.state.status, snapshotTimestamp: this.state.currentTimestamp});
-      this.createSnapshot();
-    };
+    // if (this.state.currentSeconds % 10 === 0) {
+    //   this.setState({snapshotStatus: this.state.status, snapshotTimestamp: this.state.currentTimestamp});
+    //   this.createSnapshot();
+    // };
   }, 1000)
 }
 
@@ -71,6 +71,16 @@ componentDidMount() {
 
   searchStatuses = (searchInput) => {
     console.log(searchInput)
+    axios
+      .get('http://localhost:4000/api/statuses?=' + this.state.statusSearchValue
+
+      )
+      .then((response) => {
+        console.log("THIS IS WHAT I'M GETTING BACK", response);
+      })
+      .catch((error) => {
+      console.log(error);
+      })
   }
 
 

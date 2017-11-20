@@ -17,5 +17,15 @@ module.exports = {
     dbInstance.createEvent(req.body)
       .then((res) => res.status(200).send(res))
       .catch((err) => res.status(500).send(err))
+  },
+
+  searchStatuses: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    console.log("SEARCHING STATUSES", req.body, req.query)
+    let {statusSearchValue} = req.body;
+
+    dbInstance.searchStatuses(req.query)
+      .then((res) => res.status(200).send(res))
+      .catch((err) => res.status(500).send(err))
   }
 }
