@@ -18,8 +18,8 @@ massive(process.env.CONNECTION_STRING).then(dbInstance => app.set('db', dbInstan
 const mainController = require('./controllers/mainController.js')
 
 
-app.post('/api/snapshots', mainController.createSnapshot)
-
+app.post('/api/snapshots', mainController.createSnapshot);
+app.post('/api/events', mainController.createEvent);
 
 
 const port = process.env.PORT || 4000;

@@ -9,7 +9,7 @@ class DropDown extends Component {
     super(props);
 
     this.state = {
-      status: null,
+      status: 'none',
       theTimestamp: new Date(),
       currentTimestamp: new Date(),
       currentWeekday: '',
@@ -44,16 +44,29 @@ componentDidMount() {
 
 
 
-    createSnapshot = () => {
-      let {snapshotTimestamp, snapshotStatus, userID} = this.state;
-      axios
-        .post("http://localhost:4000/api/snapshots", {
-          snapshotTimestamp,
-          snapshotStatus,
-          userID
-        })
-    }
+  createSnapshot = () => {
+    let {snapshotTimestamp, snapshotStatus, userID} = this.state;
+    axios
+      .post('http://localhost:4000/api/snapshots', {snapshotTimestamp, snapshotStatus, userID})
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+      console.log(error);
+      })
+  }
 
+
+  createEvent = (theTimestamp, status, userID) => {
+    axios
+      .post('http://localhost:4000/api/events', {theTimestamp, status, userID})
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+      console.log(error);
+      })
+  }
 
 
   searchStatuses = (searchInput) => {
@@ -128,7 +141,14 @@ componentDidMount() {
         </div>
 
         <div>
-          <select onChange={(e) => {this.setState({status: e.target.value, theTimestamp: new Date(), counter:0})}}>
+          <select onChange={(e) => {
+            this.setState(
+            {
+              status: e.target.value,
+              theTimestamp: new Date(),
+              counter:0
+            })
+          this.createEvent(new Date(), e.target.value, this.state.userID)}}>
             {statusOptions}
           </select>
         </div>

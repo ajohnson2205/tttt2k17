@@ -9,7 +9,7 @@
 
 const statuses = [
   {
-    name: null,
+    name: 'none',
     assignment: 0
   },
   {
