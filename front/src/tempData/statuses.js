@@ -23,6 +23,22 @@ const statuses = [
   {
     name: 'meeting',
     assignment: 3
+  },
+  {
+    name: 'coaching',
+    assignment: 4
+  },
+  {
+    name: 'all thumbs',
+    assignment: 5
+  },
+  {
+    name: 'ping pong',
+    assignment: 6
+  },
+  {
+    name: 'training',
+    assignment: 7
   }
 ]
 
