@@ -8,10 +8,7 @@
 
 
 const statuses = [
-  {
-    name: 'none',
-    assignment: 0
-  },
+
   {
     name: 'break',
     assignment: 1

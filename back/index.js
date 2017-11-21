@@ -20,7 +20,8 @@ const mainController = require('./controllers/mainController.js')
 
 app.post('/api/snapshots', mainController.createSnapshot);
 app.post('/api/events', mainController.createEvent);
-app.get('/api/statuses', mainController.searchStatuses)
+app.get('/api/statuses', mainController.searchStatuses);
+app.get('/api/usertimes', mainController.trackUserTimes);
 
 
 const port = process.env.PORT || 4000;

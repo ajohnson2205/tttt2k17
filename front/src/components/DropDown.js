@@ -9,7 +9,7 @@ class DropDown extends Component {
     super(props);
 
     this.state = {
-      status: 'none',
+      status: 'no status selected',
       theTimestamp: new Date(),
       currentTimestamp: new Date(),
       currentWeekday: '',
@@ -17,73 +17,91 @@ class DropDown extends Component {
       counter: 0,
       snapshotStatus: null,
       snapshotTimestamp: null,
-      userID: 12
+      userID: 12,
+      theResponse: []
     }
   }
 
 
-componentDidMount() {
-  setInterval(() => {
-    this.setState({
-      currentTimestamp: new Date(),
-      currentWeekday: new Date().getDay(),
-      currentFullYear: new Date().getFullYear(),
-      currentMonth: new Date().getMonth(),
-      currentDate: new Date().getDate(),
-      currentHours: new Date().getHours(),
-      currentMinutes: new Date().getMinutes(),
-      currentSeconds: new Date().getSeconds(),
-      counter: this.state.counter + 1
-    });
-    // if (this.state.currentSeconds % 10 === 0) {
-    //   this.setState({snapshotStatus: this.state.status, snapshotTimestamp: this.state.currentTimestamp});
-    //   this.createSnapshot();
-    // };
-  }, 1000)
-}
 
+  componentDidMount() {
+    setInterval(() => {
+      this.setState({
+        currentTimestamp: new Date(),
+        currentWeekday: new Date().getDay(),
+        currentFullYear: new Date().getFullYear(),
+        currentMonth: new Date().getMonth(),
+        currentDate: new Date().getDate(),
+        currentHours: new Date().getHours(),
+        currentMinutes: new Date().getMinutes(),
+        currentSeconds: new Date().getSeconds(),
+        counter: this.state.counter + 1
+      });
 
-
-  createSnapshot = () => {
-    let {snapshotTimestamp, snapshotStatus, userID} = this.state;
-    axios
-      .post('http://localhost:4000/api/snapshots', {snapshotTimestamp, snapshotStatus, userID})
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-      console.log(error);
-      })
+  //LOGIC FOR SNAPSHOTS
+      if (this.state.currentSeconds % 10 === 0) {
+        this.setState({snapshotStatus: this.state.status, snapshotTimestamp: this.state.currentTimestamp});
+        this.createSnapshot();
+        this.trackUserTimes();
+      };
+    }, 1000)
   }
 
 
-  createEvent = (theTimestamp, status, userID) => {
-    axios
-      .post('http://localhost:4000/api/events', {theTimestamp, status, userID})
+
+    createSnapshot = () => {
+      let {snapshotTimestamp, snapshotStatus, userID} = this.state;
+      axios
+        .post('http://localhost:4000/api/snapshots', {snapshotTimestamp, snapshotStatus, userID})
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+        console.log(error);
+        })
+    }
+
+
+    createEvent = (theTimestamp, status, userID) => {
+      axios
+        .post('http://localhost:4000/api/events', {theTimestamp, status, userID})
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+        console.log(error);
+        })
+    }
+
+
+    searchStatuses = (searchInput) => {
+      console.log(searchInput)
+      axios
+        .get('http://localhost:4000/api/statuses?=' + this.state.statusSearchValue
+
+        )
+        .then((response) => {
+          console.log("THIS IS WHAT I'M GETTING BACK", response);
+        })
+        .catch((error) => {
+        console.log(error);
+        })
+    }
+
+
+    trackUserTimes = () => {
+      axios
+      .get('http://localhost:4000/api/usertimes')
       .then((response) => {
-        console.log(response);
+        console.log(response)
+        this.setState({theResponse: response.data})
       })
       .catch((error) => {
-      console.log(error);
+        console.log(error)
       })
-  }
+    }
 
-
-  searchStatuses = (searchInput) => {
-    console.log(searchInput)
-    axios
-      .get('http://localhost:4000/api/statuses?=' + this.state.statusSearchValue
-
-      )
-      .then((response) => {
-        console.log("THIS IS WHAT I'M GETTING BACK", response);
-      })
-      .catch((error) => {
-      console.log(error);
-      })
-  }
-
-
+    //get help writing handleStatusChange
 
   render() {
     var statusOptions = statuses.map(status => {
@@ -91,6 +109,30 @@ componentDidMount() {
         <option>{status.name}</option>
       )
     })
+
+    var statusBoxes = statuses.map(status => {
+      return (
+        <div
+          className="status-box"
+          onClick={(e) => {
+
+            if (status.name !== this.state.status) {
+            this.setState(
+            {
+              status: status.name,
+              theTimestamp: new Date(),
+              counter:0
+            })
+          this.createEvent(new Date(), status.name, this.state.userID)}}}
+          >{status.name}</div>
+      )
+    })
+
+
+    var userTimes = this.state.theResponse.map(response => {
+      return(
+        <div>{response.snapshot_status} : {response.status_duration}</div>
+      )})
 
 
 
@@ -135,22 +177,28 @@ componentDidMount() {
     else displaySeconds = seconds
 
 
+
+
     return(
 
 
 
 
       <div>
+
+{/* Search option for choosing statuses */}
         <div>
           <input
+            className="status-search-input"
             placeholder="What are you up to today?"
-            ref="statusSearch"
             onChange={(e) => {this.setState({statusSearchValue: e.target.value});
             this.searchStatuses(this.state.statusSearchValue) }}
             ></input>
         </div>
 
-        <div>
+
+{/* Drop down menu for choosing statuses */}
+        {/* <div>
           <select onChange={(e) => {
             this.setState(
             {
@@ -161,13 +209,16 @@ componentDidMount() {
           this.createEvent(new Date(), e.target.value, this.state.userID)}}>
             {statusOptions}
           </select>
-        </div>
+        </div> */}
+
+
+
+
         <div>
-          <h4>Current status: {this.state.status}</h4>
+          <h1>{this.state.status}</h1>
           <h4>Began at: {this.state.theTimestamp.toString()}</h4>
           <h4>Current timestamp: {this.state.currentTimestamp.toString()}</h4>
           <h3>You have been in {this.state.status} for {this.state.counter} </h3>
-
         </div>
 
         <div>
@@ -176,6 +227,12 @@ componentDidMount() {
         <div>
           <p>    H     M     S    </p>
           <p>{displayHours}:{displayMinutes}:{displaySeconds}</p>
+        </div>
+        <div className="status-box-container">
+        {statusBoxes}
+        </div>
+        <div>
+          {userTimes}
         </div>
       </div>
     )
