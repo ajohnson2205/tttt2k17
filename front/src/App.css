@@ -60,3 +60,7 @@
   background-color: green;
   color: white;
 }
+
+
+.status-box a:focus
+{     background-color:yellow;    }

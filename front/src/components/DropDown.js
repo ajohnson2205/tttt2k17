@@ -25,7 +25,8 @@ class DropDown extends Component {
       snapshotTimestamp: null,
       userID: 12,
       userTimes: [],
-      eventUserAggTimes: []
+      eventUserAggTimes: [],
+      color: ""
     }
   }
 
@@ -50,11 +51,16 @@ class DropDown extends Component {
       if (this.state.currentSeconds % 10 === 0) {
         this.setState({snapshotStatus: this.state.status, snapshotTimestamp: this.state.currentTimestamp});
         this.createSnapshot();
-        this.trackUserTimes();
+        // this.trackUserTimes();
       };
     }, 1000)
   }
 
+
+  changeColor = () => {
+    var newColor = this.state.color == '' ? 'blue' : '';
+    this.setState({ color : newColor})
+  }
 
 
     createSnapshot = () => {
@@ -125,11 +131,8 @@ class DropDown extends Component {
 
 
   render() {
-    var statusOptions = statuses.map(status => {
-      return (
-        <option>{status.name}</option>
-      )
-    })
+
+
 
     var statusBoxes = statuses.map(status => {
       return (
@@ -143,24 +146,35 @@ class DropDown extends Component {
                 this.state.eventDuration,
                 this.state.currentTimestamp,
                 this.state.userID);
-              this.eventUserAggTimes();
+
               this.setState({
                 status: status.name,
                 theTimestamp: this.state.currentTimestamp,
                 eventDuration:0
               })
+              this.eventUserAggTimes();
             }}}
-          >{status.name}</div>
+          ><a>{status.name}</a></div>
       )
     })
 
 
-    var userTimes = this.state.userTimes.map(response => {
+    // var userTimes = this.state.userTimes.map(response => {
+    //   return(
+    //     <div>{response.snapshot_status} : {response.status_duration}</div>
+    //   )})
+
+    var eventUserAggTimesRender = this.state.eventUserAggTimes.map(event => {
+      if (event.event_status === this.state.status) {
       return(
-        <div>{response.snapshot_status} : {response.status_duration}</div>
-      )})
-
-
+        <div>{event.event_status} : {parseInt(event.status_duration) + parseInt( this.state.eventDuration)}</div>
+      )}
+      else {
+        return(
+          <div>{event.event_status} : {event.status_duration}</div>
+        )
+      }
+    })
 
     function determineWeekday(param) {
       var day
@@ -255,11 +269,15 @@ class DropDown extends Component {
 
 
 {/* Dynamic render of how long a user has spent in each status */}
-        <div>
+        {/* <div>
           {userTimes}
+        </div> */}
+
+
+{/* Improved dynamic render of how long a user has been in each status */}
+        <div>
+          {eventUserAggTimesRender}
         </div>
-
-
 
       </div>
     )

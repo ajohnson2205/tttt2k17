@@ -22,7 +22,7 @@ app.post('/api/snapshots', mainController.createSnapshot);
 app.post('/api/events', mainController.createEvent);
 app.get('/api/statuses', mainController.searchStatuses);
 app.get('/api/usertimes', mainController.trackUserTimes);
-app.get('/api/eventUserAggTimes', mainController.eventUserAggTimes);
+app.get('/api/eventuseraggtimes', mainController.eventUserAggTimes);
 
 
 

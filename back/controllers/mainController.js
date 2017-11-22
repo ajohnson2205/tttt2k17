@@ -42,6 +42,7 @@ module.exports = {
       .catch((err) => res.status(500).send(err))
   },
 
+
   eventUserAggTimes: (req, res, next) => {
     const dbInstance = req.app.get('db');
     console.log("GETTING EVENT USER TIMES", res.data)
