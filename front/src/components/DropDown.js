@@ -10,7 +10,7 @@ class DropDown extends Component {
 
     this.state = {
       theTimestamp: new Date(),
-      status: 'no status selected',
+      status: null,
       currentTimestamp: new Date(),
       currentWeekday: '',
       currentFullYear: '',
@@ -20,17 +20,19 @@ class DropDown extends Component {
       currentMinutes: '',
       currentSeconds: '',
       timeInCurrentStatus: '',
-      counter: 0,
+      eventDuration: 0,
       snapshotStatus: null,
       snapshotTimestamp: null,
       userID: 12,
-      userTimes: []
+      userTimes: [],
+      eventUserAggTimes: []
     }
   }
 
 
 
   componentDidMount() {
+    this.eventUserAggTimes();
     setInterval(() => {
       this.setState({
         currentTimestamp: new Date(),
@@ -41,7 +43,7 @@ class DropDown extends Component {
         currentHours: new Date().getHours(),
         currentMinutes: new Date().getMinutes(),
         currentSeconds: new Date().getSeconds(),
-        counter: this.state.counter + 1
+        eventDuration: this.state.eventDuration + 1
       });
 
   //LOGIC FOR SNAPSHOTS
@@ -68,9 +70,9 @@ class DropDown extends Component {
     }
 
 
-    createEvent = (theTimestamp, status, userID) => {
+    createEvent = (theTimestamp, status, eventDuration, currentTimestamp, userID) => {
       axios
-        .post('http://localhost:4000/api/events', {theTimestamp, status, userID})
+        .post('http://localhost:4000/api/events', {theTimestamp, status, eventDuration, currentTimestamp, userID})
         .then((response) => {
           console.log(response);
         })
@@ -108,6 +110,17 @@ class DropDown extends Component {
     }
 
 
+    eventUserAggTimes = () => {
+      axios
+      .get('http://localhost:4000/api/eventUserAggTimes')
+      .then((response) => {
+        console.log(response)
+        this.setState({eventUserAggTimes: response.data})
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
 
 
 
@@ -123,15 +136,20 @@ class DropDown extends Component {
         <div
           className="status-box"
           onClick={(e) => {
-
             if (status.name !== this.state.status) {
-            this.setState(
-            {
-              status: status.name,
-              theTimestamp: new Date(),
-              counter:0
-            })
-          this.createEvent(new Date(), status.name, this.state.userID)}}}
+              this.createEvent(
+                this.state.theTimestamp,
+                this.state.status,
+                this.state.eventDuration,
+                this.state.currentTimestamp,
+                this.state.userID);
+              this.eventUserAggTimes();
+              this.setState({
+                status: status.name,
+                theTimestamp: this.state.currentTimestamp,
+                eventDuration:0
+              })
+            }}}
           >{status.name}</div>
       )
     })
@@ -166,19 +184,19 @@ class DropDown extends Component {
       return day
     }
 
-    var hours = Math.floor((this.state.counter)/3600)
+    var hours = Math.floor((this.state.eventDuration)/3600)
     if(hours < 10) {
       var displayHours = "0" + hours.toString()
     }
     else displayHours = hours
 
-    var minutes = Math.floor((this.state.counter)/60 - (hours * 60)).toString()
+    var minutes = Math.floor((this.state.eventDuration)/60 - (hours * 60)).toString()
     if(minutes < 10) {
       var displayMinutes = "0" + minutes.toString()
     }
     else displayMinutes = minutes
 
-    var seconds = this.state.counter - (hours * 3600) - (minutes * 60).toString()
+    var seconds = this.state.eventDuration - (hours * 3600) - (minutes * 60).toString()
     if(seconds < 10) {
       var displaySeconds = "0" + seconds.toString()
     }
@@ -209,7 +227,7 @@ class DropDown extends Component {
             {
               status: e.target.value,
               theTimestamp: new Date(),
-              counter:0
+              eventDuration:0
             })
           this.createEvent(new Date(), e.target.value, this.state.userID)}}>
             {statusOptions}
@@ -220,9 +238,10 @@ class DropDown extends Component {
 {/* Basic information about what's going on now */}
         <div>
           <h1>{this.state.status}</h1>
-          <h4>Began at: {this.state.theTimestamp.toString()}</h4>
-          <h4>Current timestamp: {this.state.currentTimestamp.toString()}</h4>
-          <h3>You have been in {this.state.status} for {this.state.counter} </h3>
+          <h4>theTimestamp: {this.state.theTimestamp.toString()}</h4>
+          <h4>currentTimestamp: {this.state.currentTimestamp.toString()}</h4>
+          <h3>eventStatus: {this.state.status}</h3>
+          <h3>eventDuration: {this.state.eventDuration} </h3>
           <p>Happy {determineWeekday(this.state.currentWeekday)}!</p>
           <p>    H     M     S    </p>
           <p>{displayHours}:{displayMinutes}:{displaySeconds}</p>

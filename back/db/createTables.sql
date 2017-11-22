@@ -5,12 +5,14 @@ CREATE TABLE snapshots (
   snapshot_id SERIAL PRIMARY KEY
 );
 
---NEED TO FIX
+
 CREATE TABLE events (
-  snapshot_timestamp TIMESTAMP,
-  snapshot_status VARCHAR(50),
+  event_timestamp TIMESTAMP,
+  event_status VARCHAR(50),
+  event_duration INTEGER,
+  event_end_timestamp TIMESTAMP,
   user_id INTEGER,
-  snapshot_id SERIAL PRIMARY KEY
+  event_id SERIAL PRIMARY KEY
 );
 
 
