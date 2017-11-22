@@ -9,16 +9,22 @@ class DropDown extends Component {
     super(props);
 
     this.state = {
-      status: 'no status selected',
       theTimestamp: new Date(),
+      status: 'no status selected',
       currentTimestamp: new Date(),
       currentWeekday: '',
+      currentFullYear: '',
+      currentMonth: '',
+      currentDate: '',
+      currentHours: '',
+      currentMinutes: '',
+      currentSeconds: '',
       timeInCurrentStatus: '',
       counter: 0,
       snapshotStatus: null,
       snapshotTimestamp: null,
       userID: 12,
-      theResponse: []
+      userTimes: []
     }
   }
 
@@ -94,14 +100,16 @@ class DropDown extends Component {
       .get('http://localhost:4000/api/usertimes')
       .then((response) => {
         console.log(response)
-        this.setState({theResponse: response.data})
+        this.setState({userTimes: response.data})
       })
       .catch((error) => {
         console.log(error)
       })
     }
 
-    //get help writing handleStatusChange
+
+
+
 
   render() {
     var statusOptions = statuses.map(status => {
@@ -129,7 +137,7 @@ class DropDown extends Component {
     })
 
 
-    var userTimes = this.state.theResponse.map(response => {
+    var userTimes = this.state.userTimes.map(response => {
       return(
         <div>{response.snapshot_status} : {response.status_duration}</div>
       )})
@@ -180,11 +188,8 @@ class DropDown extends Component {
 
 
     return(
-
-
-
-
       <div>
+
 
 {/* Search option for choosing statuses */}
         <div>
@@ -212,28 +217,31 @@ class DropDown extends Component {
         </div> */}
 
 
-
-
+{/* Basic information about what's going on now */}
         <div>
           <h1>{this.state.status}</h1>
           <h4>Began at: {this.state.theTimestamp.toString()}</h4>
           <h4>Current timestamp: {this.state.currentTimestamp.toString()}</h4>
           <h3>You have been in {this.state.status} for {this.state.counter} </h3>
-        </div>
-
-        <div>
-            <p>Happy {determineWeekday(this.state.currentWeekday)}!</p>
-        </div>
-        <div>
+          <p>Happy {determineWeekday(this.state.currentWeekday)}!</p>
           <p>    H     M     S    </p>
           <p>{displayHours}:{displayMinutes}:{displaySeconds}</p>
         </div>
+
+
+{/* Dynamic render of all of the statuses a user could choose */}
         <div className="status-box-container">
-        {statusBoxes}
+          {statusBoxes}
         </div>
+
+
+{/* Dynamic render of how long a user has spent in each status */}
         <div>
           {userTimes}
         </div>
+
+
+
       </div>
     )
   }
