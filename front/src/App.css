@@ -64,3 +64,16 @@
 
 .status-box a:focus
 {     background-color:yellow;    }
+
+
+.status-box-active {
+  border-style: solid;
+  border-color: black;
+  border-width: thin;
+  height: 30px;
+  width: 120px;
+  padding-top:5px;
+  font-weight: bold;
+  background-color: green;
+  color: white;
+}

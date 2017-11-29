@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 
-class TotalStatus extends Component {
+class Home extends Component {
   constructor(props) {
     super(props)
   }
@@ -12,11 +12,10 @@ class TotalStatus extends Component {
 
   render() {
     return(
-      <p>Statuses</p>
-      
-    )
+    <p>Home</p>
+  )
   }
 }
 
 
-export default TotalStatus
+export default Home

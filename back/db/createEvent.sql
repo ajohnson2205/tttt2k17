@@ -11,7 +11,7 @@ INSERT INTO
 VALUES
   (
     ${theTimestamp}, -- theTimestamp
-    ${status},
+    ${currentStatus},
     ${eventDuration},
     ${currentTimestamp},  -- eventEndTimestamp
     ${userID}

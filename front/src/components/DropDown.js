@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import statuses from '../tempData/statuses.js'
 import axios from 'axios';
 
+import TestComponent from './TestComponent.js'
 
 class DropDown extends Component {
   constructor(props) {
@@ -26,7 +27,12 @@ class DropDown extends Component {
       userID: 12,
       userTimes: [],
       eventUserAggTimes: [],
-      color: ""
+      color: "",
+      searchResultArray: [],
+      idToHighlight: "",
+      class: "status-box",
+      updateClass: "status-box-active",
+      indexToUpdate: ""
     }
   }
 
@@ -48,19 +54,14 @@ class DropDown extends Component {
       });
 
   //LOGIC FOR SNAPSHOTS
-      if (this.state.currentSeconds % 10 === 0) {
-        this.setState({snapshotStatus: this.state.status, snapshotTimestamp: this.state.currentTimestamp});
-        this.createSnapshot();
-        // this.trackUserTimes();
-      };
+      // if (this.state.currentSeconds % 10 === 0) {
+      //   this.setState({snapshotStatus: this.state.status, snapshotTimestamp: this.state.currentTimestamp});
+      //   this.createSnapshot();
+      //   // this.trackUserTimes();
+      // };
     }, 1000)
   }
 
-
-  changeColor = () => {
-    var newColor = this.state.color == '' ? 'blue' : '';
-    this.setState({ color : newColor})
-  }
 
 
     createSnapshot = () => {
@@ -76,12 +77,23 @@ class DropDown extends Component {
     }
 
 
-    createEvent = (theTimestamp, status, eventDuration, currentTimestamp, userID) => {
+    createEvent = (theTimestamp, status, currentStatus, eventDuration, currentTimestamp, userID) => {
       axios
-        .post('http://localhost:4000/api/events', {theTimestamp, status, eventDuration, currentTimestamp, userID})
-        .then((response) => {
-          console.log(response);
-        })
+        .post('http://localhost:4000/api/events', {theTimestamp, currentStatus, eventDuration, currentTimestamp, userID})
+        .then(  (res) => {
+          console.log('I am status', status)
+          console.log('I am current time stamp', currentTimestamp)
+
+
+          this.setState({
+                    status: status.name,
+                    theTimestamp: this.state.currentTimestamp,
+                    eventDuration:0,
+                  })
+
+
+
+          })
         .catch((error) => {
         console.log(error);
         })
@@ -91,11 +103,11 @@ class DropDown extends Component {
     searchStatuses = (searchInput) => {
       console.log(searchInput)
       axios
-        .get('http://localhost:4000/api/statuses?=' + this.state.statusSearchValue
+        .get('http://localhost:4000/api/statuses?searchValue=' + this.state.statusSearchValue
 
         )
         .then((response) => {
-          console.log("THIS IS WHAT I'M GETTING BACK", response);
+          this.setState({searchResultArray: response.data})
         })
         .catch((error) => {
         console.log(error);
@@ -128,35 +140,62 @@ class DropDown extends Component {
       })
     }
 
+    updateBackgroundColor = (index) => {
+      this.setState({indexToUpdate: index})
+    }
 
 
   render() {
 
 
 
-    var statusBoxes = statuses.map(status => {
+    var statusBoxes = statuses.map((status, index) => {
       return (
-        <div
-          className="status-box"
-          onClick={(e) => {
-            if (status.name !== this.state.status) {
-              this.createEvent(
-                this.state.theTimestamp,
-                this.state.status,
-                this.state.eventDuration,
-                this.state.currentTimestamp,
-                this.state.userID);
-
-              this.setState({
-                status: status.name,
-                theTimestamp: this.state.currentTimestamp,
-                eventDuration:0
-              })
-              this.eventUserAggTimes();
-            }}}
-          ><a>{status.name}</a></div>
+        <TestComponent
+          status={status}
+          index={index}
+          currentStatus={this.state.status}
+          theTimestamp={this.state.theTimestamp}
+          eventDuration={this.state.eventDuration}
+          currentTimestamp={this.state.currentTimestamp}
+          userID={this.state.userID}
+          indexToUpdate={this.state.indexToUpdate} updateBackgroundColor={this.updateBackgroundColor}
+          createEvent={this.createEvent}
+        />
       )
     })
+
+//
+// THE ORIGINAL STUFF
+//     <div
+//       className={this.state.class}
+//       onClick={(e) => {
+//         if (status.name !== this.state.status) {
+//           this.createEvent(
+//             this.state.theTimestamp,
+//             this.state.status,
+//             this.state.eventDuration,
+//             this.state.currentTimestamp,
+//             this.state.userID);
+//
+//           this.setState({
+//             status: status.name,
+//             theTimestamp: this.state.currentTimestamp,
+//             eventDuration:0,
+//             idToHighlight: index,
+//             class: 'status-box-active'
+//           })
+//           this.eventUserAggTimes();
+//         }}}
+//       ><a>{status.name}</a></div>
+
+
+
+
+
+
+
+
 
 
     // var userTimes = this.state.userTimes.map(response => {
@@ -228,25 +267,15 @@ class DropDown extends Component {
           <input
             className="status-search-input"
             placeholder="What are you up to today?"
-            onChange={(e) => {this.setState({statusSearchValue: e.target.value});
-            this.searchStatuses(this.state.statusSearchValue) }}
+            onChange={(e) => {this.setState({statusSearchValue: e.target.value}, () => {
+              this.searchStatuses(this.state.statusSearchValue)
+          });
+             }}
             ></input>
+
+
         </div>
 
-
-{/* Drop down menu for choosing statuses */}
-        {/* <div>
-          <select onChange={(e) => {
-            this.setState(
-            {
-              status: e.target.value,
-              theTimestamp: new Date(),
-              eventDuration:0
-            })
-          this.createEvent(new Date(), e.target.value, this.state.userID)}}>
-            {statusOptions}
-          </select>
-        </div> */}
 
 
 {/* Basic information about what's going on now */}

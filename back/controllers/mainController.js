@@ -17,19 +17,27 @@ module.exports = {
     let {theTimestamp, status, eventDuration, currentTimestamp, userID} = req.body;
 
     dbInstance.createEvent(req.body)
-      .then((res) => res.status(200).send(res))
-      .catch((err) => res.status(500).send(err))
+      .then((response) => res.status(200).send(response))
+      .catch((err) => console.log(err))
   },
 
 
   searchStatuses: (req, res, next) => {
     const dbInstance = req.app.get('db');
-    console.log("SEARCHING STATUSES", req.body, req.query)
-    let {statusSearchValue} = req.body;
+    let statusSearchValue = req.query.searchValue;
+    console.log("SEARCHING STATUSES", statusSearchValue)
 
-    dbInstance.searchStatuses(req.query)
-      .then((res) => res.status(200).send(res))
-      .catch((err) => res.status(500).send(err))
+    dbInstance.searchStatuses([statusSearchValue])
+      .then((response) => {
+        res.status(200).send(response)
+      })
+
+      // res.status(200).send(res))
+      .catch((err) => {
+        res.status(500).send(err)
+      })
+
+      // res.status(500).send(err))
   },
 
 
