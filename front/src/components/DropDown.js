@@ -161,6 +161,7 @@ class DropDown extends Component {
           userID={this.state.userID}
           indexToUpdate={this.state.indexToUpdate} updateBackgroundColor={this.updateBackgroundColor}
           createEvent={this.createEvent}
+          eventUserAggTimes={this.eventUserAggTimes}
         />
       )
     })
@@ -280,7 +281,6 @@ class DropDown extends Component {
 
 {/* Basic information about what's going on now */}
         <div>
-          <h1>{this.state.status}</h1>
           <h4>theTimestamp: {this.state.theTimestamp.toString()}</h4>
           <h4>currentTimestamp: {this.state.currentTimestamp.toString()}</h4>
           <h3>eventStatus: {this.state.status}</h3>

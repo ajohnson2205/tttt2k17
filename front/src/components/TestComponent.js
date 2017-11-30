@@ -34,7 +34,8 @@ class TestComponent extends Component {
               this.props.eventDuration,
               this.props.currentTimestamp,
               this.props.userID);
-            this.props.updateBackgroundColor(this.props.index)
+            this.props.updateBackgroundColor(this.props.index);
+            this.props.eventUserAggTimes();
 
 
             }}}
