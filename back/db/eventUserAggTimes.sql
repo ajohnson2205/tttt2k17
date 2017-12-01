@@ -1,18 +1,20 @@
 SELECT
-    event_status,
-    CONCAT(
-      to_char((SUM(event_duration) / 3600), '00'),
-      ':',
-      to_char(((SUM(event_duration) / 60) % 60 ), '00'),
-      ':',
-      to_char((SUM(event_duration) % 60), '00')
-    ) as status_duration
+  event_status,
+  CONCAT(
+    to_char((SUM(event_duration) / 3600), '00'),
+    ' :',
+    to_char(((SUM(event_duration) / 60) % 60 ), '00'),
+    ' :',
+    to_char((SUM(event_duration) % 60), '00')
+  ) as status_duration
 FROM
-    events
+  events
 WHERE
-    user_id = 12
+  user_id = 12
 GROUP BY
-    event_status
+  event_status
+ORDER BY
+  event_status
 
 
 

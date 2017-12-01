@@ -58,6 +58,18 @@ module.exports = {
     dbInstance.eventUserAggTimes()
       .then(eventUserAggTimes => {res.status(200).send(eventUserAggTimes)})
       .catch((err) => res.status(500).send(err))
+  },
+
+
+  statusesAvailableForChoosing: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    console.log("GETTING STATUSES AVAILBLE FOR CHOOSING", res.data)
+
+    dbInstance.statusesAvailableForChoosing()
+      .then(statusesAvailableForChoosing => {res.status(200).send(statusesAvailableForChoosing)})
+      .catch((err) => res.status(500).send(err))
   }
+
+
 
 }

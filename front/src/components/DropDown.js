@@ -32,14 +32,23 @@ class DropDown extends Component {
       idToHighlight: "",
       class: "status-box",
       updateClass: "status-box-active",
-      indexToUpdate: ""
+      indexToUpdate: "",
+      statusesAvailableForChoosing: []
     }
   }
 
 
 
+
   componentDidMount() {
+    const userInfo = axios.get('http://localhost:4000/dropdown', {withCredentials: true}).then( res => {
+        console.log(res)
+        return res.data
+    })
+
     this.eventUserAggTimes();
+    this.statusesAvailableForChoosing();
+
     setInterval(() => {
       this.setState({
         currentTimestamp: new Date(),
@@ -86,7 +95,7 @@ class DropDown extends Component {
 
 
           this.setState({
-                    status: status.name,
+                    status: status.status_name,
                     theTimestamp: this.state.currentTimestamp,
                     eventDuration:0,
                   })
@@ -140,29 +149,54 @@ class DropDown extends Component {
       })
     }
 
+    statusesAvailableForChoosing = () => {
+      axios
+      .get('http://localhost:4000/api/statusesAvailableForChoosing')
+      .then((response) => {
+        console.log(response)
+        this.setState({statusesAvailableForChoosing: response.data})
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+
     updateBackgroundColor = (index) => {
       this.setState({indexToUpdate: index})
     }
+
+
+
+
+
+
+
+
+
+
 
 
   render() {
 
 
 
-    var statusBoxes = statuses.map((status, index) => {
+    var statusBoxes = this.state.statusesAvailableForChoosing.map((status, index) => {
       return (
-        <TestComponent
-          status={status}
-          index={index}
-          currentStatus={this.state.status}
-          theTimestamp={this.state.theTimestamp}
-          eventDuration={this.state.eventDuration}
-          currentTimestamp={this.state.currentTimestamp}
-          userID={this.state.userID}
-          indexToUpdate={this.state.indexToUpdate} updateBackgroundColor={this.updateBackgroundColor}
-          createEvent={this.createEvent}
-          eventUserAggTimes={this.eventUserAggTimes}
-        />
+        <div>
+          <br></br>
+          <TestComponent
+            status={status}
+            index={index}
+            currentStatus={this.state.status}
+            theTimestamp={this.state.theTimestamp}
+            eventDuration={this.state.eventDuration}
+            currentTimestamp={this.state.currentTimestamp}
+            userID={this.state.userID}
+            indexToUpdate={this.state.indexToUpdate} updateBackgroundColor={this.updateBackgroundColor}
+            createEvent={this.createEvent}
+            eventUserAggTimes={this.eventUserAggTimes}
+          />
+        </div>
       )
     })
 

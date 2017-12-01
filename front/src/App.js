@@ -19,8 +19,7 @@ class App extends Component {
           <Link to="/">Home</Link>
           <Link to="/totalstatus">Total Status</Link>
           <Link to="/dropdown">Drop Down</Link>
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+
         </header>
         <main>
           <Route exact path="/" component={Home} />

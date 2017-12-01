@@ -24,11 +24,15 @@ CREATE TABLE statuses (
 
 
 CREATE TABLE users (
-  --TBD
-  --TBD
-  --TBD
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  email TEXT,
+  picture TEXT,
+  auth_id TEXT,
   user_id SERIAL PRIMARY KEY
 )
+
+
 
 
 

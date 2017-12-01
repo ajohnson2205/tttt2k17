@@ -26,7 +26,7 @@ class TestComponent extends Component {
         className={this.state.class}
         onClick={(e) => {
           console.log("xxxxxxxxxx", this.props.status)
-          if (this.props.currentStatus !== this.props.status) {
+          if (this.props.status.status_name !== this.props.status) {
             this.props.createEvent(
               this.props.theTimestamp,
               this.props.status,
@@ -39,7 +39,7 @@ class TestComponent extends Component {
 
 
             }}}
-            ><a>{this.props.status.name}</a></div>
+            ><a>{this.props.status.status_name}</a></div>
 
     )
   }
