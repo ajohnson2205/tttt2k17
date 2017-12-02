@@ -47,6 +47,10 @@ INSERT INTO statuses (status_name) VALUES ('coaching');
 INSERT INTO statuses (status_name) VALUES ('training');
 INSERT INTO statuses (status_name) VALUES ('ping pong');
 INSERT INTO statuses (status_name) VALUES ('all thumbs');
+INSERT INTO statuses (status_name) VALUES ('dinking around');
+INSERT INTO statuses (status_name) VALUES ('chat');
+INSERT INTO statuses (status_name) VALUES ('lessonly');
+
 
 
 --DROP TABLES FOR A NICE RESET

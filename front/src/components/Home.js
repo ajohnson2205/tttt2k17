@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
+
+import NavBar from './NavBar.js'
 
 class Home extends Component {
   constructor(props) {
@@ -12,10 +15,21 @@ class Home extends Component {
 
   render() {
     return(
-    <p>Home</p>
+      <div>
+        <NavBar />
+        <p>Home</p>
+
+      </div>
   )
   }
 }
 
 
-export default Home
+const mapStateToProps = state => {
+  return {
+    ...state
+  }
+}
+
+
+export default connect(mapStateToProps, null)(Home)

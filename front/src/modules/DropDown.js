@@ -1,50 +1,21 @@
-export const INCREMENT_REQUESTED = 'counter/INCREMENT_REQUESTED'
-export const INCREMENT = 'counter/INCREMENT'
-export const DECREMENT_REQUESTED = 'counter/DECREMENT_REQUESTED'
-export const DECREMENT = 'counter/DECREMENT'
-
-const initialState = {
-  theTimestamp: new Date(),
-  status: null,
-  currentTimestamp: new Date(),
-  currentWeekday: '',
-  currentFullYear: '',
-  currentMonth: '',
-  currentDate: '',
-  currentHours: '',
-  currentMinutes: '',
-  currentSeconds: '',
-  timeInCurrentStatus: '',
-  eventDuration: 0,
-  snapshotStatus: null,
-  snapshotTimestamp: null,
-  userID: 12,
-  userTimes: [],
-  eventUserAggTimes: [],
-  color: ""
-}
-
-export default (state = initialState, action) => {
-  switch (action.type) {
-    case INCREMENT_REQUESTED:
-      return {
-        ...state,
-        isIncrementing: true
-      }
-
-    default:
-      return state
+import initialState from './initialState';
+import
+  {
+  WRITE_AVAILABLE_STATUSES,
+  RESET_STORE
   }
-}
+from '../actions/actionTypes';
 
-export const increment = () => {
-  return dispatch => {
-    dispatch({
-      type: INCREMENT_REQUESTED
-    })
-
-    dispatch({
-      type: INCREMENT
-    })
+export default function wizard(state = initialState, action) {
+  let newState;
+  switch(action.type) {
+    case WRITE_AVAILABLE_STATUSES:
+      console.log('WRITE_AVAILABLE_STATUSES', action)
+      return Object.assign({}, state, action.payload)
+    case RESET_STORE:
+        console.log('Resetting the store', action)
+        return Object.assign({}, state, initialState)
+    default:
+      return state;
   }
 }

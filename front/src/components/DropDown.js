@@ -14,11 +14,6 @@ class DropDown extends Component {
       status: null,
       currentTimestamp: new Date(),
       currentWeekday: '',
-      currentFullYear: '',
-      currentMonth: '',
-      currentDate: '',
-      currentHours: '',
-      currentMinutes: '',
       currentSeconds: '',
       timeInCurrentStatus: '',
       eventDuration: 0,
@@ -27,9 +22,7 @@ class DropDown extends Component {
       userID: 12,
       userTimes: [],
       eventUserAggTimes: [],
-      color: "",
       searchResultArray: [],
-      idToHighlight: "",
       class: "status-box",
       updateClass: "status-box-active",
       indexToUpdate: "",
@@ -41,23 +34,22 @@ class DropDown extends Component {
 
 
   componentDidMount() {
+  // (1) Get auth set on mount
     const userInfo = axios.get('http://localhost:4000/dropdown', {withCredentials: true}).then( res => {
         console.log(res)
         return res.data
     })
-
+  // (2) Get user data on mount
     this.eventUserAggTimes();
+
+  // (3) Get available statuses on mount
     this.statusesAvailableForChoosing();
 
+  // (4) Tick on mount
     setInterval(() => {
       this.setState({
         currentTimestamp: new Date(),
         currentWeekday: new Date().getDay(),
-        currentFullYear: new Date().getFullYear(),
-        currentMonth: new Date().getMonth(),
-        currentDate: new Date().getDate(),
-        currentHours: new Date().getHours(),
-        currentMinutes: new Date().getMinutes(),
         currentSeconds: new Date().getSeconds(),
         eventDuration: this.state.eventDuration + 1
       });
@@ -72,7 +64,7 @@ class DropDown extends Component {
   }
 
 
-
+  //Create a snapshot of the user's current status and send to the database
     createSnapshot = () => {
       let {snapshotTimestamp, snapshotStatus, userID} = this.state;
       axios
@@ -86,44 +78,39 @@ class DropDown extends Component {
     }
 
 
+  //Create an event logging what status the user has been in and send to database. then change them to the new status
     createEvent = (theTimestamp, status, currentStatus, eventDuration, currentTimestamp, userID) => {
       axios
         .post('http://localhost:4000/api/events', {theTimestamp, currentStatus, eventDuration, currentTimestamp, userID})
         .then(  (res) => {
-          console.log('I am status', status)
-          console.log('I am current time stamp', currentTimestamp)
-
-
           this.setState({
-                    status: status.status_name,
-                    theTimestamp: this.state.currentTimestamp,
-                    eventDuration:0,
-                  })
-
-
-
+            status: status.status_name,
+            theTimestamp: this.state.currentTimestamp,
+            eventDuration:0,
           })
+        })
         .catch((error) => {
-        console.log(error);
+          console.log(error);
         })
     }
 
 
+  //Search the database for available statuses
     searchStatuses = (searchInput) => {
       console.log(searchInput)
       axios
         .get('http://localhost:4000/api/statuses?searchValue=' + this.state.statusSearchValue
-
         )
         .then((response) => {
           this.setState({searchResultArray: response.data})
         })
         .catch((error) => {
-        console.log(error);
+          console.log(error);
         })
     }
 
 
+  //Use the snapshots table to determine how long folks have been in different statuses
     trackUserTimes = () => {
       axios
       .get('http://localhost:4000/api/usertimes')
@@ -137,6 +124,7 @@ class DropDown extends Component {
     }
 
 
+  //Use the events table to determine how long folks have been in different statuses
     eventUserAggTimes = () => {
       axios
       .get('http://localhost:4000/api/eventUserAggTimes')
@@ -149,6 +137,8 @@ class DropDown extends Component {
       })
     }
 
+
+  //Pull statuses from the database
     statusesAvailableForChoosing = () => {
       axios
       .get('http://localhost:4000/api/statusesAvailableForChoosing')
@@ -161,6 +151,8 @@ class DropDown extends Component {
       })
     }
 
+
+  //Change the background color of the buttons
     updateBackgroundColor = (index) => {
       this.setState({indexToUpdate: index})
     }
@@ -183,7 +175,6 @@ class DropDown extends Component {
     var statusBoxes = this.state.statusesAvailableForChoosing.map((status, index) => {
       return (
         <div>
-          <br></br>
           <TestComponent
             status={status}
             index={index}
@@ -200,43 +191,6 @@ class DropDown extends Component {
       )
     })
 
-//
-// THE ORIGINAL STUFF
-//     <div
-//       className={this.state.class}
-//       onClick={(e) => {
-//         if (status.name !== this.state.status) {
-//           this.createEvent(
-//             this.state.theTimestamp,
-//             this.state.status,
-//             this.state.eventDuration,
-//             this.state.currentTimestamp,
-//             this.state.userID);
-//
-//           this.setState({
-//             status: status.name,
-//             theTimestamp: this.state.currentTimestamp,
-//             eventDuration:0,
-//             idToHighlight: index,
-//             class: 'status-box-active'
-//           })
-//           this.eventUserAggTimes();
-//         }}}
-//       ><a>{status.name}</a></div>
-
-
-
-
-
-
-
-
-
-
-    // var userTimes = this.state.userTimes.map(response => {
-    //   return(
-    //     <div>{response.snapshot_status} : {response.status_duration}</div>
-    //   )})
 
     var eventUserAggTimesRender = this.state.eventUserAggTimes.map(event => {
       if (event.event_status === this.state.status) {
@@ -245,7 +199,9 @@ class DropDown extends Component {
       )}
       else {
         return(
-          <div>{event.event_status} : {event.status_duration}</div>
+          <div>
+            <div>{event.event_status} : {event.status_duration}</div>
+          </div>
         )
       }
     })
@@ -339,6 +295,9 @@ class DropDown extends Component {
 
 {/* Improved dynamic render of how long a user has been in each status */}
         <div>
+          <br />
+          <br />
+          <br />
           {eventUserAggTimesRender}
         </div>
 
