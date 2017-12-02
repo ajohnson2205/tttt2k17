@@ -4,7 +4,12 @@ import axios from 'axios';
 
 import { connect } from 'react-redux';
 
-import { acceptAvailableStatuses } from '../actions/actions.js'
+import {
+  acceptAvailableStatuses,
+  updateTheTimestamp,
+  eventUserAggTimes
+
+ } from '../actions/actions.js'
 
 
 class NavBar extends Component {
@@ -14,21 +19,14 @@ class NavBar extends Component {
 
 
   componentDidMount() {
-    this.statusesAvailableForChoosing();
+    this.props.acceptAvailableStatuses();
+    this.props.eventUserAggTimes();
+    setInterval(() => {
+      this.props.updateTheTimestamp();
+    }, 1000)
   }
 
 
-  statusesAvailableForChoosing = () => {
-    axios
-    .get('http://localhost:4000/api/statusesAvailableForChoosing')
-    .then((response) => {
-      console.log("THIS FUCKING THING", response)
-      acceptAvailableStatuses(response.data)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  }
 
   render() {
     return(
@@ -45,7 +43,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  acceptAvailableStatuses
+  acceptAvailableStatuses,
+  updateTheTimestamp,
+  eventUserAggTimes
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar)

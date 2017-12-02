@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 // import '../paper.css';
 import axios from 'axios';
 
+import { connect } from 'react-redux';
+
+import {
+  updateTheTimestamp
+
+ } from '../actions/actions.js'
+
+
 import TestComponent from './TestComponent.js'
 
 class DropDown extends Component {
@@ -24,8 +32,7 @@ class DropDown extends Component {
       searchResultArray: [],
       class: "status-box",
       updateClass: "status-box-active",
-      indexToUpdate: "",
-      statusesAvailableForChoosing: []
+      indexToUpdate: ""
     }
   }
 
@@ -41,8 +48,6 @@ class DropDown extends Component {
   // (2) Get user data on mount
     this.eventUserAggTimes();
 
-  // (3) Get available statuses on mount
-    this.statusesAvailableForChoosing();
 
   // (4) Tick on mount
     setInterval(() => {
@@ -51,7 +56,8 @@ class DropDown extends Component {
         currentWeekday: new Date().getDay(),
         currentSeconds: new Date().getSeconds(),
         eventDuration: this.state.eventDuration + 1
-      });
+      },
+    );
 
   //LOGIC FOR SNAPSHOTS
       // if (this.state.currentSeconds % 10 === 0) {
@@ -137,18 +143,7 @@ class DropDown extends Component {
     }
 
 
-  //Pull statuses from the database
-    statusesAvailableForChoosing = () => {
-      axios
-      .get('http://localhost:4000/api/statusesAvailableForChoosing')
-      .then((response) => {
-        console.log(response)
-        this.setState({statusesAvailableForChoosing: response.data})
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    }
+
 
 
   //Change the background color of the buttons
@@ -171,7 +166,7 @@ class DropDown extends Component {
 
 
 
-    var statusBoxes = this.state.statusesAvailableForChoosing.map((status, index) => {
+    var statusBoxes = this.props.genericReducer.statusesAvailableForChoosing.map((status, index) => {
       return (
         <div key={index}>
           <TestComponent
@@ -279,6 +274,10 @@ class DropDown extends Component {
           <p>{displayHours}:{displayMinutes}:{displaySeconds}</p>
         </div>
 
+        <div>
+          <p>From REDUX: {this.props.genericReducer.currentTimestamp.toString()}</p>
+        </div>
+
 
 {/* Dynamic render of all of the statuses a user could choose */}
         <div className="status-box-container">
@@ -305,4 +304,16 @@ class DropDown extends Component {
   }
 }
 
-export default DropDown
+
+
+const mapStateToProps = state => {
+  return {
+    ...state
+  }
+}
+
+const mapDispatchToProps = {
+  updateTheTimestamp
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DropDown)
