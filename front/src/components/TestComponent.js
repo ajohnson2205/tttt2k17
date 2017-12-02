@@ -23,6 +23,7 @@ class TestComponent extends Component {
   render() {
     return(
       <div
+        key={this.props.index}
         className={this.state.class}
         onClick={(e) => {
           console.log("xxxxxxxxxx", this.props.status)

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 // import '../paper.css';
-import statuses from '../tempData/statuses.js'
 import axios from 'axios';
 
 import TestComponent from './TestComponent.js'
@@ -174,7 +173,7 @@ class DropDown extends Component {
 
     var statusBoxes = this.state.statusesAvailableForChoosing.map((status, index) => {
       return (
-        <div>
+        <div key={index}>
           <TestComponent
             status={status}
             index={index}
@@ -195,11 +194,11 @@ class DropDown extends Component {
     var eventUserAggTimesRender = this.state.eventUserAggTimes.map(event => {
       if (event.event_status === this.state.status) {
       return(
-        <div>{event.event_status} : {parseInt(event.status_duration) + parseInt( this.state.eventDuration)}</div>
+        <div key={event.event_status}>{event.event_status} : {parseInt(event.status_duration) + parseInt( this.state.eventDuration)}</div>
       )}
       else {
         return(
-          <div>
+          <div key={event.event_status}>
             <div>{event.event_status} : {event.status_duration}</div>
           </div>
         )

@@ -16,7 +16,7 @@ const app = module.exports = express();
 app.use(session({
   secret: process.env.SECRET,
   resave: false,
-  saveUninitalized: true
+  saveUninitialized: true
 }))
 
 app.use(passport.initialize());
