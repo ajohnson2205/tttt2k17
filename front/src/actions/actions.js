@@ -3,7 +3,8 @@ import axios from 'axios';
 import {
   WRITE_AVAILABLE_STATUSES,
   UPDATE_THE_TIMESTAMP,
-  GET_EVENT_USER_AGG_TIMES
+  GET_EVENT_USER_AGG_TIMES,
+  DETERMINE_WEEKDAY
 }
   from './actionTypes';
 
@@ -47,3 +48,9 @@ export function eventUserAggTimes (data) {
 
   }
 }
+
+export function determineWeekday (data) {
+  return {
+    type: DETERMINE_WEEKDAY,
+    payload: "Saturday"
+}}

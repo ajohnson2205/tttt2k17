@@ -1,4 +1,12 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+
+
+import {
+  eventUserAggTimes
+
+ } from '../actions/actions.js'
+
 
 class TestComponent extends Component {
   constructor(props) {
@@ -8,6 +16,11 @@ class TestComponent extends Component {
       class: 'status-box'
     }
   }
+
+
+
+
+
 
 
   componentWillReceiveProps(nextProps) {
@@ -48,4 +61,14 @@ class TestComponent extends Component {
 
 }
 
-export default TestComponent;
+const mapStateToProps = state => {
+  return {
+    ...state
+  }
+}
+
+const mapDispatchToProps = {
+  eventUserAggTimes
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TestComponent)

@@ -77,3 +77,13 @@
   background-color: green;
   color: white;
 }
+
+.navbar-container {
+  background-color: yellow;
+  height: 150px;
+}
+
+.navbar-links {
+  display: flex;
+  justify-content: space-around;
+}

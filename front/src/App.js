@@ -15,12 +15,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <Link to="/">Home</Link>
-          <Link to="/totalstatus">Total Status</Link>
-          <Link to="/dropdown">Drop Down</Link>
-
-        </header>
         <main>
           <Route exact path="/" component={Home} />
           <Route exact path="/dropdown" component={DropDown} />

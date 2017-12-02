@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-// import '../paper.css';
 import axios from 'axios';
 
 import { connect } from 'react-redux';
+import NavBar from './NavBar.js'
 
 import {
   updateTheTimestamp
@@ -45,8 +45,7 @@ class DropDown extends Component {
         console.log(res)
         return res.data
     })
-  // (2) Get user data on mount
-    this.eventUserAggTimes();
+
 
 
   // (4) Tick on mount
@@ -129,18 +128,7 @@ class DropDown extends Component {
     }
 
 
-  //Use the events table to determine how long folks have been in different statuses
-    eventUserAggTimes = () => {
-      axios
-      .get('http://localhost:4000/api/eventUserAggTimes')
-      .then((response) => {
-        console.log(response)
-        this.setState({eventUserAggTimes: response.data})
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    }
+
 
 
 
@@ -179,14 +167,13 @@ class DropDown extends Component {
             userID={this.state.userID}
             indexToUpdate={this.state.indexToUpdate} updateBackgroundColor={this.updateBackgroundColor}
             createEvent={this.createEvent}
-            eventUserAggTimes={this.eventUserAggTimes}
           />
         </div>
       )
     })
 
 
-    var eventUserAggTimesRender = this.state.eventUserAggTimes.map(event => {
+    var eventUserAggTimesRender = this.props.genericReducer.eventUserAggTimes.map(event => {
       if (event.event_status === this.state.status) {
       return(
         <div key={event.event_status}>{event.event_status} : {parseInt(event.status_duration) + parseInt( this.state.eventDuration)}</div>
@@ -245,7 +232,7 @@ class DropDown extends Component {
 
     return(
       <div>
-
+        <NavBar />
 
 {/* Search option for choosing statuses */}
         <div>
