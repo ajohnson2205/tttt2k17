@@ -6,7 +6,7 @@ module.exports = {
     let {snapshotTimestamp, snapshotStatus, userID} = req.body;
 
     dbInstance.createSnapshot(req.body)
-      .then((res) => res.status(200).send(res))
+      .then((response) => res.status(200).send(response))
       .catch((err) => res.status(500).send(err))
   },
 

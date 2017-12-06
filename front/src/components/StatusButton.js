@@ -39,7 +39,6 @@ class TestComponent extends Component {
         key={this.props.index}
         className={this.state.class}
         onClick={(e) => {
-          console.log("xxxxxxxxxx", this.props.status)
           if (this.props.status.status_name !== this.props.status) {
             this.props.createEvent(
               this.props.theTimestamp,

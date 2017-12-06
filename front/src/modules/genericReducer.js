@@ -4,7 +4,8 @@ import
     WRITE_AVAILABLE_STATUSES,
     UPDATE_THE_TIMESTAMP,
     GET_EVENT_USER_AGG_TIMES,
-    DETERMINE_WEEKDAY
+    DETERMINE_WEEKDAY,
+    UPDATE_EVENT_DURATION
   }
   from '../actions/actionTypes';
 
@@ -19,7 +20,8 @@ export default function statuses (state = initialState, action) {
       return Object.assign({}, state, {
         currentTimestamp: action.payload.currentTimestamp,
         currentWeekday: action.payload.currentWeekday,
-        currentSeconds: action.payload.currentSeconds
+        currentSeconds: action.payload.currentSeconds,
+        eventDuration: state.eventDuration + 1
       })
     case GET_EVENT_USER_AGG_TIMES + "_FULFILLED":
       return Object.assign({}, state, {
@@ -28,6 +30,10 @@ export default function statuses (state = initialState, action) {
     case DETERMINE_WEEKDAY :
       return Object.assign({}, state, {
         weekday: action.payload
+      })
+    case UPDATE_EVENT_DURATION :
+      return Object.assign({}, state, {
+        eventDuration: 0
       })
     default :
       return state;

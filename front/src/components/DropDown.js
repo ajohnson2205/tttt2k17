@@ -10,7 +10,7 @@ import {
  } from '../actions/actions.js'
 
 
-import TestComponent from './TestComponent.js'
+import StatusButton from './StatusButton.js'
 
 class DropDown extends Component {
   constructor(props) {
@@ -58,12 +58,12 @@ class DropDown extends Component {
       },
     );
 
-  //LOGIC FOR SNAPSHOTS
-      // if (this.state.currentSeconds % 10 === 0) {
-      //   this.setState({snapshotStatus: this.state.status, snapshotTimestamp: this.state.currentTimestamp});
-      //   this.createSnapshot();
-      //   // this.trackUserTimes();
-      // };
+  // LOGIC FOR SNAPSHOTS
+      if (this.state.currentSeconds % 10 === 0) {
+        this.setState({snapshotStatus: this.state.status, snapshotTimestamp: this.state.currentTimestamp});
+        this.createSnapshot();
+        console.log("Creating snapshot")
+      };
     }, 1000)
   }
 
@@ -73,9 +73,7 @@ class DropDown extends Component {
       let {snapshotTimestamp, snapshotStatus, userID} = this.state;
       axios
         .post('http://localhost:4000/api/snapshots', {snapshotTimestamp, snapshotStatus, userID})
-        .then((response) => {
-          console.log(response);
-        })
+
         .catch((error) => {
         console.log(error);
         })
@@ -157,7 +155,7 @@ class DropDown extends Component {
     var statusBoxes = this.props.genericReducer.statusesAvailableForChoosing.map((status, index) => {
       return (
         <div key={index}>
-          <TestComponent
+          <StatusButton
             status={status}
             index={index}
             currentStatus={this.state.status}
@@ -235,7 +233,7 @@ class DropDown extends Component {
         <NavBar />
 
 {/* Search option for choosing statuses */}
-        <div>
+        {/* <div>
           <input
             className="status-search-input"
             placeholder="What are you up to today?"
@@ -246,7 +244,7 @@ class DropDown extends Component {
             ></input>
 
 
-        </div>
+        </div> */}
 
 
 
@@ -255,14 +253,10 @@ class DropDown extends Component {
           <h4>theTimestamp: {this.state.theTimestamp.toString()}</h4>
           <h4>currentTimestamp: {this.state.currentTimestamp.toString()}</h4>
           <h3>eventStatus: {this.state.status}</h3>
-          <h3>eventDuration: {this.state.eventDuration} </h3>
+          <h3>eventDuration: {this.props.genericReducer.eventDuration} </h3>
           <p>Happy {determineWeekday(this.state.currentWeekday)}!</p>
           <p>    H     M     S    </p>
           <p>{displayHours}:{displayMinutes}:{displaySeconds}</p>
-        </div>
-
-        <div>
-          <p>From REDUX: {this.props.genericReducer.currentTimestamp.toString()}</p>
         </div>
 
 
@@ -271,20 +265,6 @@ class DropDown extends Component {
           {statusBoxes}
         </div>
 
-
-{/* Dynamic render of how long a user has spent in each status */}
-        {/* <div>
-          {userTimes}
-        </div> */}
-
-
-{/* Improved dynamic render of how long a user has been in each status */}
-        <div>
-          <br />
-          <br />
-          <br />
-          {eventUserAggTimesRender}
-        </div>
 
       </div>
     )

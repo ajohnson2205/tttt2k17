@@ -10,12 +10,12 @@ import {
   acceptAvailableStatuses,
   updateTheTimestamp,
   eventUserAggTimes,
-  determineWeekday
+  determineWeekday,
+  updateEventDuration
 
  } from '../actions/actions.js'
 
 
-var day
 
 class NavBar extends Component {
   constructor(props) {
@@ -24,15 +24,23 @@ class NavBar extends Component {
 
 
   componentDidMount() {
+    console.log("COMPONENT DID MOUNT")
     this.props.acceptAvailableStatuses();
     this.props.eventUserAggTimes();
     this.props.determineWeekday();
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.props.updateTheTimestamp();
     }, 1000)
   }
 
+  componentWillUnmount() {
+    console.log("COMPONENT WILL UNMOUNT")
+    clearInterval(this.timer)
+  }
 
+  resetEventDuration() {
+    this.props.updateEventDuration();
+  }
 
 
   render() {
@@ -40,15 +48,32 @@ class NavBar extends Component {
       <div className="navbar-container">
         <p>THIS IS THE NAVBAR. Are you not entertained?</p>
         <p>{this.props.genericReducer.weekday}</p>
+        <p>{this.props.genericReducer.eventDuration}</p>
+        <p>{this.props.genericReducer.currentTimestamp.toString()}
+
+        </p>
+        <div>
+          <button
+            onClick={(e) => {this.resetEventDuration()}}>RESET TIMER</button>
+          </div>
+
           <div className="navbar-links">
-            <Link to="/">Home</Link>
-            <Link to="/totalstatus">Total Status</Link>
-            <Link to="/dropdown">Drop Down</Link>
+            <Link
+              to="/"
+                >Home</Link>
+            <Link
+              to="/totalstatus"
+                >Total Status</Link>
+            <Link
+              to="/dropdown"
+              // target="_blank"
+                >Drop Down</Link>
           </div>
       </div>
   )
   }
 }
+
 
 
 const mapStateToProps = state => {
@@ -61,7 +86,8 @@ const mapDispatchToProps = {
   acceptAvailableStatuses,
   updateTheTimestamp,
   eventUserAggTimes,
-  determineWeekday
+  determineWeekday,
+  updateEventDuration
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar)

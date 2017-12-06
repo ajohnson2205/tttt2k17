@@ -4,7 +4,8 @@ import {
   WRITE_AVAILABLE_STATUSES,
   UPDATE_THE_TIMESTAMP,
   GET_EVENT_USER_AGG_TIMES,
-  DETERMINE_WEEKDAY
+  DETERMINE_WEEKDAY,
+  UPDATE_EVENT_DURATION
 }
   from './actionTypes';
 
@@ -32,7 +33,7 @@ export function updateTheTimestamp (data) {
     payload: {
       currentTimestamp: currentTimestamp,
       currentWeekday: currentWeekday,
-      currentSeconds: currentSeconds
+      currentSeconds: currentSeconds,
     }
   }
 }
@@ -54,3 +55,10 @@ export function determineWeekday (data) {
     type: DETERMINE_WEEKDAY,
     payload: "Saturday"
 }}
+
+
+export function updateEventDuration () {
+  return {
+    type: UPDATE_EVENT_DURATION
+  }
+}
