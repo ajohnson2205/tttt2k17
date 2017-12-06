@@ -5,7 +5,9 @@ import
     UPDATE_THE_TIMESTAMP,
     GET_EVENT_USER_AGG_TIMES,
     DETERMINE_WEEKDAY,
-    UPDATE_EVENT_DURATION
+    UPDATE_EVENT_DURATION,
+    UPDATE_STATUS,
+    UPDATE_EVENT_START_TIMESTAMP
   }
   from '../actions/actionTypes';
 
@@ -34,6 +36,14 @@ export default function statuses (state = initialState, action) {
     case UPDATE_EVENT_DURATION :
       return Object.assign({}, state, {
         eventDuration: 0
+      })
+    case UPDATE_STATUS :
+      return Object.assign({}, state, {
+        status: action.payload
+      })
+    case UPDATE_EVENT_START_TIMESTAMP :
+      return Object.assign({}, state, {
+        eventStartTimestamp: action.payload
       })
     default :
       return state;

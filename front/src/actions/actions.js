@@ -5,7 +5,9 @@ import {
   UPDATE_THE_TIMESTAMP,
   GET_EVENT_USER_AGG_TIMES,
   DETERMINE_WEEKDAY,
-  UPDATE_EVENT_DURATION
+  UPDATE_EVENT_DURATION,
+  UPDATE_STATUS,
+  UPDATE_EVENT_START_TIMESTAMP
 }
   from './actionTypes';
 
@@ -24,7 +26,7 @@ export function acceptAvailableStatuses (data) {
 }
 
 
-export function updateTheTimestamp (data) {
+export function updateeventStartTimestamp (data) {
   var currentTimestamp = new Date()
   var currentWeekday = currentTimestamp.getDay()
   var currentSeconds = currentTimestamp.getSeconds()
@@ -60,5 +62,19 @@ export function determineWeekday (data) {
 export function updateEventDuration () {
   return {
     type: UPDATE_EVENT_DURATION
+  }
+}
+
+export function updateStatus(data) {
+  return {
+    type: UPDATE_STATUS,
+    payload: data.status_name
+  }
+}
+
+export function updateEventStartTimestamp() {
+  return {
+    type: UPDATE_EVENT_START_TIMESTAMP,
+    payload: new Date()
   }
 }

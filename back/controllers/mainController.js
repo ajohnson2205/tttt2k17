@@ -14,7 +14,7 @@ module.exports = {
   createEvent: (req, res, next) => {
     const dbInstance = req.app.get('db');
     console.log("CREATING AN EVENT", req.body)
-    let {theTimestamp, status, eventDuration, currentTimestamp, userID} = req.body;
+    let {eventStartTimestamp, status, eventDuration, currentTimestamp, userID} = req.body;
 
     dbInstance.createEvent(req.body)
       .then((response) => res.status(200).send(response))

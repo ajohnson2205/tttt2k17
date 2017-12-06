@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import NavBar from './NavBar.js'
 
 import {
-  updateTheTimestamp
+  updateeventStartTimestamp
 
  } from '../actions/actions.js'
 
@@ -17,7 +17,7 @@ class DropDown extends Component {
     super(props);
 
     this.state = {
-      theTimestamp: new Date(),
+      eventStartTimestamp: new Date(),
       status: null,
       currentTimestamp: new Date(),
       currentWeekday: '',
@@ -35,8 +35,6 @@ class DropDown extends Component {
       indexToUpdate: ""
     }
   }
-
-
 
 
   componentDidMount() {
@@ -60,7 +58,7 @@ class DropDown extends Component {
 
   // LOGIC FOR SNAPSHOTS
       if (this.state.currentSeconds % 10 === 0) {
-        this.setState({snapshotStatus: this.state.status, snapshotTimestamp: this.state.currentTimestamp});
+        this.setState({snapshotStatus: this.props.genericReducer.status, snapshotTimestamp: this.props.genericReducer.currentTimestamp});
         this.createSnapshot();
         console.log("Creating snapshot")
       };
@@ -81,13 +79,13 @@ class DropDown extends Component {
 
 
   //Create an event logging what status the user has been in and send to database. then change them to the new status
-    createEvent = (theTimestamp, status, currentStatus, eventDuration, currentTimestamp, userID) => {
+    createEvent = (eventStartTimestamp, status, eventDuration, currentTimestamp, userID) => {
       axios
-        .post('http://localhost:4000/api/events', {theTimestamp, currentStatus, eventDuration, currentTimestamp, userID})
-        .then(  (res) => {
+        .post('http://localhost:4000/api/events', {eventStartTimestamp, status, eventDuration, currentTimestamp, userID})
+        .then((res) => {
           this.setState({
             status: status.status_name,
-            theTimestamp: this.state.currentTimestamp,
+            eventStartTimestamp: this.props.genericReducer.currentTimestamp,
             eventDuration:0,
           })
         })
@@ -101,7 +99,7 @@ class DropDown extends Component {
     searchStatuses = (searchInput) => {
       console.log(searchInput)
       axios
-        .get('http://localhost:4000/api/statuses?searchValue=' + this.state.statusSearchValue
+        .get('http://localhost:4000/api/statuses?searchValue=' + this.props.genericReducer.statusSearchValue
         )
         .then((response) => {
           this.setState({searchResultArray: response.data})
@@ -158,10 +156,9 @@ class DropDown extends Component {
           <StatusButton
             status={status}
             index={index}
-            currentStatus={this.state.status}
-            theTimestamp={this.state.theTimestamp}
+            eventStartTimestamp={this.props.genericReducer.eventStartTimestamp}
             eventDuration={this.state.eventDuration}
-            currentTimestamp={this.state.currentTimestamp}
+            currentTimestamp={this.props.genericReducer.currentTimestamp}
             userID={this.state.userID}
             indexToUpdate={this.state.indexToUpdate} updateBackgroundColor={this.updateBackgroundColor}
             createEvent={this.createEvent}
@@ -172,7 +169,7 @@ class DropDown extends Component {
 
 
     var eventUserAggTimesRender = this.props.genericReducer.eventUserAggTimes.map(event => {
-      if (event.event_status === this.state.status) {
+      if (event.event_status === this.props.genericReducer.status) {
       return(
         <div key={event.event_status}>{event.event_status} : {parseInt(event.status_duration) + parseInt( this.state.eventDuration)}</div>
       )}
@@ -207,25 +204,27 @@ class DropDown extends Component {
       return day
     }
 
-    var hours = Math.floor((this.state.eventDuration)/3600)
-    if(hours < 10) {
-      var displayHours = "0" + hours.toString()
+    function secondsToHHMMSS(seconds) {
+      var hours = Math.floor((seconds)/3600)
+      if(hours < 10) {
+        var displayHours = "0" + hours.toString()
+      }
+      else displayHours = hours
+
+      var minutes = Math.floor((seconds)/60 - (hours * 60)).toString()
+      if(minutes < 10) {
+        var displayMinutes = "0" + minutes.toString()
+      }
+      else displayMinutes = minutes
+
+      var seconds = seconds - (hours * 3600) - (minutes * 60).toString()
+      if(seconds < 10) {
+        var displaySeconds = "0" + seconds.toString()
+      }
+      else displaySeconds = seconds
+
+      return( displayHours + ":" + displayMinutes + ":" + displaySeconds)
     }
-    else displayHours = hours
-
-    var minutes = Math.floor((this.state.eventDuration)/60 - (hours * 60)).toString()
-    if(minutes < 10) {
-      var displayMinutes = "0" + minutes.toString()
-    }
-    else displayMinutes = minutes
-
-    var seconds = this.state.eventDuration - (hours * 3600) - (minutes * 60).toString()
-    if(seconds < 10) {
-      var displaySeconds = "0" + seconds.toString()
-    }
-    else displaySeconds = seconds
-
-
 
 
     return(
@@ -238,7 +237,7 @@ class DropDown extends Component {
             className="status-search-input"
             placeholder="What are you up to today?"
             onChange={(e) => {this.setState({statusSearchValue: e.target.value}, () => {
-              this.searchStatuses(this.state.statusSearchValue)
+              this.searchStatuses(this.props.genericReducer.statusSearchValue)
           });
              }}
             ></input>
@@ -250,13 +249,13 @@ class DropDown extends Component {
 
 {/* Basic information about what's going on now */}
         <div>
-          <h4>theTimestamp: {this.state.theTimestamp.toString()}</h4>
-          <h4>currentTimestamp: {this.state.currentTimestamp.toString()}</h4>
-          <h3>eventStatus: {this.state.status}</h3>
+          <h4>eventStartTimestamp: {this.props.genericReducer.eventStartTimestamp.toString()}</h4>
+          <h4>currentTimestamp: {this.props.genericReducer.currentTimestamp.toString()}</h4>
+          <h3>eventStatus: {this.props.genericReducer.status}</h3>
           <h3>eventDuration: {this.props.genericReducer.eventDuration} </h3>
           <p>Happy {determineWeekday(this.state.currentWeekday)}!</p>
-          <p>    H     M     S    </p>
-          <p>{displayHours}:{displayMinutes}:{displaySeconds}</p>
+          <p>HH:MM:SS</p>
+          <p>{secondsToHHMMSS(this.props.genericReducer.eventDuration)}</p>
         </div>
 
 
@@ -280,7 +279,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  updateTheTimestamp
+  updateeventStartTimestamp
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DropDown)

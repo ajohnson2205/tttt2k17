@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 
 import {
   acceptAvailableStatuses,
-  updateTheTimestamp,
+  updateeventStartTimestamp,
   eventUserAggTimes,
   determineWeekday,
   updateEventDuration
@@ -29,7 +29,7 @@ class NavBar extends Component {
     this.props.eventUserAggTimes();
     this.props.determineWeekday();
     this.timer = setInterval(() => {
-      this.props.updateTheTimestamp();
+      this.props.updateeventStartTimestamp();
     }, 1000)
   }
 
@@ -44,10 +44,12 @@ class NavBar extends Component {
 
 
   render() {
+
+
     return(
       <div className="navbar-container">
         <p>THIS IS THE NAVBAR. Are you not entertained?</p>
-        <p>{this.props.genericReducer.weekday}</p>
+        <p>{this.props.genericReducer.weekday} + {this.props.genericReducer.status}</p>
         <p>{this.props.genericReducer.eventDuration}</p>
         <p>{this.props.genericReducer.currentTimestamp.toString()}
 
@@ -84,7 +86,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   acceptAvailableStatuses,
-  updateTheTimestamp,
+  updateeventStartTimestamp,
   eventUserAggTimes,
   determineWeekday,
   updateEventDuration

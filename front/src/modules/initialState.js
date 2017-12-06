@@ -1,5 +1,5 @@
 export default {
-  theTimestamp: new Date(),
+  eventStartTimestamp: new Date(),
   status: null,
   currentTimestamp: new Date(),
   currentWeekday: '',
