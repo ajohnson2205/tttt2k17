@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import DropDown from './components/DropDown.js'
+import StatusOptions from './components/StatusOptions.js'
 import Home from './components/Home.js'
 import TotalStatus from './components/TotalStatus.js'
 
@@ -17,7 +17,7 @@ class App extends Component {
       <div className="App">
         <main>
           <Route exact path="/" component={Home} />
-          <Route exact path="/dropdown" component={DropDown} />
+          <Route exact path="/statusoptions" component={StatusOptions} />
           <Route exact path="/totalstatus" component={TotalStatus} />
         </main>
       </div>

@@ -26,7 +26,7 @@ export function acceptAvailableStatuses (data) {
 }
 
 
-export function updateeventStartTimestamp (data) {
+export function updateEventStartTimestamp (data) {
   var currentTimestamp = new Date()
   var currentWeekday = currentTimestamp.getDay()
   var currentSeconds = currentTimestamp.getSeconds()
@@ -72,7 +72,7 @@ export function updateStatus(data) {
   }
 }
 
-export function updateEventStartTimestamp() {
+export function updateEventStartTimeTimestamp() {
   return {
     type: UPDATE_EVENT_START_TIMESTAMP,
     payload: new Date()

@@ -12,7 +12,7 @@ import
   from '../actions/actionTypes';
 
 export default function statuses (state = initialState, action) {
-  console.log(action.type)
+  // console.log(action.type)
   let newState;
   switch(action.type) {
     case WRITE_AVAILABLE_STATUSES + "_FULFILLED" :
@@ -29,10 +29,10 @@ export default function statuses (state = initialState, action) {
       return Object.assign({}, state, {
         eventUserAggTimes: action.payload.data
       })
-    case DETERMINE_WEEKDAY :
-      return Object.assign({}, state, {
-        weekday: action.payload
-      })
+    // case DETERMINE_WEEKDAY :
+    //   return Object.assign({}, state, {
+    //     weekday: action.payload
+    //   })
     case UPDATE_EVENT_DURATION :
       return Object.assign({}, state, {
         eventDuration: 0

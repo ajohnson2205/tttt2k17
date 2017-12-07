@@ -4,6 +4,11 @@ import { connect } from 'react-redux'
 
 import NavBar from './NavBar.js'
 
+import
+  {
+  secondsToHHMMSS
+  }
+  from '../miscFunctions.js'
 
 
 
@@ -15,30 +20,22 @@ class TotalStatus extends Component {
 
   render() {
 
+
+
     var eventUserAggTimesRender = this.props.genericReducer.eventUserAggTimes.map(event => {
-        return(
-          <div key={event.event_status}>
-            <div>{event.event_status} : {event.status_duration}</div>
-          </div>
-        )
-      }
-    )
-
-
-    var eventUserAggTimesRender2 = this.props.genericReducer.eventUserAggTimes.map(event => {
       if(event.event_status === this.props.genericReducer.status) {
 
         var runningDuration = parseInt(event.status_duration) + this.props.genericReducer.eventDuration
         return(
           <div key={event.event_status}>
-            <div>{event.event_status} : {runningDuration}</div>
+            <div>{event.event_status} : {secondsToHHMMSS(runningDuration)}</div>
           </div>
         )
       }
       else {
         return(
           <div key={event.event_status}>
-            <div>{event.event_status} : {event.status_duration}</div>
+            <div>{event.event_status} : {secondsToHHMMSS(event.status_duration)}</div>
           </div>
         )
       }
@@ -56,13 +53,7 @@ class TotalStatus extends Component {
         <div>
           {eventUserAggTimesRender}
 
-          <div>
-            <br />
-            <br />
-            <p>This is the new one</p>
-            {eventUserAggTimesRender2}
-
-          </div>
+  
         </div>
       </div>
 

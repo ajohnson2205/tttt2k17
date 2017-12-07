@@ -8,7 +8,7 @@ INSERT INTO
 
 VALUES
   (
-    ${snapshotTimestamp},
-    ${snapshotStatus},
+    ${currentTimestamp},
+    ${status},
     ${userID}
   );

@@ -6,7 +6,8 @@ import {
   eventUserAggTimes,
   updateEventDuration,
   updateStatus,
-  updateEventStartTimestamp
+  updateEventStartTimeTimestamp
+
  } from '../actions/actions.js'
 
 
@@ -40,12 +41,12 @@ class TestComponent extends Component {
               this.props.genericReducer.eventStartTimestamp,
               this.props.genericReducer.status,
               this.props.genericReducer.eventDuration,
-              this.props.currentTimestamp,
-              this.props.userID);
+              this.props.genericReducer.currentTimestamp,
+              this.props.genericReducer.userID);
             this.props.updateBackgroundColor(this.props.index);
             this.props.eventUserAggTimes();
             this.props.updateStatus(this.props.status);
-            this.props.updateEventStartTimestamp();
+            this.props.updateEventStartTimeTimestamp();
             this.props.updateEventDuration();
 
 
@@ -67,7 +68,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   eventUserAggTimes,
   updateStatus,
-  updateEventStartTimestamp,
+  updateEventStartTimeTimestamp,
   updateEventDuration
 }
 

@@ -67,7 +67,7 @@ passport.deserializeUser((profile, done) => {
 //endPoints
 app.get('/api/auth/login', passport.authenticate('auth0'));
 app.get('/auth/callback', passport.authenticate('auth0', {
-  successRedirect: 'http://localhost:3000/dropdown',
+  successRedirect: 'http://localhost:3000/statusoptions',
   failureRedirect: 'http://localhost:4000/api/auth/login'
 }))
 
@@ -78,7 +78,7 @@ app.get('/api/auth/logout', authController.logout);
 
 
 //This is the bit that protects all of the routes
-app.get('/dropdown', (req, res, next) => {
+app.get('/statusoptions', (req, res, next) => {
   if (!req.user) {
 
     return res.status(401).send('Log in required');
