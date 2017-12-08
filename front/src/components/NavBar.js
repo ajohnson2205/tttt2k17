@@ -10,6 +10,9 @@ import
   acceptAvailableStatuses,
   updateEventStartTimestamp,
   eventUserAggTimes,
+  eventUserAggTimesSameDay,
+  eventUserAggTimesLastSevenDays,
+  eventUserAggTimesLastTwentyEightDays,
   determineWeekday,
   updateEventDuration
   }
@@ -34,6 +37,9 @@ class NavBar extends Component {
     console.log("COMPONENT DID MOUNT")
     this.props.acceptAvailableStatuses();
     this.props.eventUserAggTimes();
+    this.props.eventUserAggTimesSameDay();
+    this.props.eventUserAggTimesLastSevenDays();
+    this.props.eventUserAggTimesLastTwentyEightDays();
     this.props.determineWeekday();
     this.timer = setInterval(() => {
       this.props.updateEventStartTimestamp();
@@ -54,7 +60,7 @@ class NavBar extends Component {
     let {currentTimestamp, status, userID} = this.props.genericReducer;
     axios
       .post('http://localhost:4000/api/snapshots', {currentTimestamp, status, userID})
-
+      .then(response => console.log(response))
       .catch((error) => {
       console.log(error);
       })
@@ -96,6 +102,9 @@ const mapDispatchToProps = {
   acceptAvailableStatuses,
   updateEventStartTimestamp,
   eventUserAggTimes,
+  eventUserAggTimesSameDay,
+  eventUserAggTimesLastSevenDays,
+  eventUserAggTimesLastTwentyEightDays,
   determineWeekday,
   updateEventDuration
 }

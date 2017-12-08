@@ -17,7 +17,6 @@ import
   }
   from '../miscFunctions.js';
 
-import breakImage from '../assets/break.png'
 
 
 import StatusButton from './StatusButton.js'
@@ -130,6 +129,7 @@ class StatusOptions extends Component {
           <p>Happy {determineWeekdayFromNumber(this.props.genericReducer.currentWeekday)}!</p>
           <p>HH:MM:SS</p>
           <p>{secondsToHHMMSS(this.props.genericReducer.eventDuration)}</p>
+          <h1 className="big-status">{this.props.genericReducer.status.toUpperCase()}</h1>
         </div>
 
 

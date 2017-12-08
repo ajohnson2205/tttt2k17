@@ -96,3 +96,7 @@
   display: flex;
   justify-content: space-around;
 }
+
+.big-status {
+  font-size: 72px;
+}

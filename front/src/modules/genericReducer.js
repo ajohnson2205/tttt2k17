@@ -4,6 +4,9 @@ import
     WRITE_AVAILABLE_STATUSES,
     UPDATE_THE_TIMESTAMP,
     GET_EVENT_USER_AGG_TIMES,
+    EVENT_USER_AGG_TIMES_SAME_DAY,
+    EVENT_USER_AGG_TIMES_LAST_SEVEN_DAYS,
+    EVENT_USER_AGG_TIMES_LAST_TWENTY_EIGHT_DAYS,
     DETERMINE_WEEKDAY,
     UPDATE_EVENT_DURATION,
     UPDATE_STATUS,
@@ -29,10 +32,23 @@ export default function statuses (state = initialState, action) {
       return Object.assign({}, state, {
         eventUserAggTimes: action.payload.data
       })
-    // case DETERMINE_WEEKDAY :
-    //   return Object.assign({}, state, {
-    //     weekday: action.payload
-    //   })
+
+      case EVENT_USER_AGG_TIMES_SAME_DAY + "_FULFILLED":
+        return Object.assign({}, state, {
+          eventUserAggTimesSameDay: action.payload.data
+        })
+
+        case EVENT_USER_AGG_TIMES_LAST_SEVEN_DAYS + "_FULFILLED":
+          return Object.assign({}, state, {
+            eventUserAggTimesLastSevenDays: action.payload.data
+          })
+
+          case EVENT_USER_AGG_TIMES_LAST_TWENTY_EIGHT_DAYS + "_FULFILLED":
+            return Object.assign({}, state, {
+              eventUserAggTimesLastTwentyEightDays: action.payload.data
+            })
+
+
     case UPDATE_EVENT_DURATION :
       return Object.assign({}, state, {
         eventDuration: 0

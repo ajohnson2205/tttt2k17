@@ -51,7 +51,7 @@ class TestComponent extends Component {
 
 
             }}}
-            ><a>{this.props.status.status_name}</a></div>
+            ><a>{this.props.status.status_name.toUpperCase()}</a></div>
 
     )
   }

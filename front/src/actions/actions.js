@@ -7,7 +7,11 @@ import {
   DETERMINE_WEEKDAY,
   UPDATE_EVENT_DURATION,
   UPDATE_STATUS,
-  UPDATE_EVENT_START_TIMESTAMP
+  UPDATE_EVENT_START_TIMESTAMP,
+  EVENT_USER_AGG_TIMES_SAME_DAY,
+  EVENT_USER_AGG_TIMES_LAST_SEVEN_DAYS,
+  EVENT_USER_AGG_TIMES_LAST_TWENTY_EIGHT_DAYS
+
 }
   from './actionTypes';
 
@@ -52,6 +56,42 @@ export function eventUserAggTimes (data) {
   }
 }
 
+
+export function eventUserAggTimesSameDay (data) {
+  const request =
+    axios
+    .get('http://localhost:4000/api/eventUserAggTimesSameDay')
+
+  return {
+    type: EVENT_USER_AGG_TIMES_SAME_DAY,
+    payload: request
+
+  }
+}
+
+export function eventUserAggTimesLastSevenDays (data) {
+  const request =
+    axios
+    .get('http://localhost:4000/api/eventUserAggTimesLastSevenDays')
+
+  return {
+    type: EVENT_USER_AGG_TIMES_LAST_SEVEN_DAYS,
+    payload: request
+
+  }
+}
+
+export function eventUserAggTimesLastTwentyEightDays (data) {
+  const request =
+    axios
+    .get('http://localhost:4000/api/eventUserAggTimesLastTwentyEightDays')
+
+  return {
+    type: EVENT_USER_AGG_TIMES_LAST_TWENTY_EIGHT_DAYS,
+    payload: request
+
+  }
+}
 export function determineWeekday (data) {
   return {
     type: DETERMINE_WEEKDAY,

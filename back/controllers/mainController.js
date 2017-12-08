@@ -44,8 +44,6 @@ module.exports = {
 
   eventUserAggTimes: (req, res, next) => {
     const dbInstance = req.app.get('db');
-    console.log("GETTING EVENT USER TIMES", res.data)
-
     dbInstance.eventUserAggTimes()
       .then(eventUserAggTimes => {res.status(200).send(eventUserAggTimes)})
       .catch((err) => res.status(500).send(err))
@@ -54,13 +52,33 @@ module.exports = {
 
   statusesAvailableForChoosing: (req, res, next) => {
     const dbInstance = req.app.get('db');
-    console.log("GETTING STATUSES AVAILBLE FOR CHOOSING", res.data)
-
     dbInstance.statusesAvailableForChoosing()
       .then(statusesAvailableForChoosing => {res.status(200).send(statusesAvailableForChoosing)})
       .catch((err) => res.status(500).send(err))
-  }
+  },
 
+  eventUserAggTimesSameDay: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    dbInstance.eventUserAggTimesSameDay()
+      .then(eventUserAggTimesSameDay => {res.status(200).send(eventUserAggTimesSameDay)})
+      .catch((err) => res.status(500).send(err))
+  },
+
+
+  eventUserAggTimesLastSevenDays: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    dbInstance.eventUserAggTimesLastSevenDays()
+      .then(eventUserAggTimesLastSevenDays => {res.status(200).send(eventUserAggTimesLastSevenDays)})
+      .catch((err) => res.status(500).send(err))
+  },
+
+
+  eventUserAggTimesLastTwentyEightDays: (req, res, next) => {
+    const dbInstance = req.app.get('db');
+    dbInstance.eventUserAggTimesLastTwentyEightDays()
+      .then(eventUserAggTimesLastTwentyEightDays => {res.status(200).send(eventUserAggTimesLastTwentyEightDays)})
+      .catch((err) => res.status(500).send(err))
+  },
 
 
 }

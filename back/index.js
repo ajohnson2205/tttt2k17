@@ -92,6 +92,9 @@ app.post('/api/snapshots', mainController.createSnapshot);
 app.post('/api/events', mainController.createEvent);
 app.get('/api/statuses', mainController.searchStatuses);
 app.get('/api/eventuseraggtimes', mainController.eventUserAggTimes);
+app.get('/api/eventuseraggtimessameday', mainController.eventUserAggTimesSameDay);
+app.get('/api/eventuseraggtimeslastsevendays', mainController.eventUserAggTimesLastSevenDays);
+app.get('/api/eventuseraggtimeslasttwentyeightdays', mainController.eventUserAggTimesLastTwentyEightDays);
 app.get('/api/statusesAvailableForChoosing', mainController.statusesAvailableForChoosing);
 
 
