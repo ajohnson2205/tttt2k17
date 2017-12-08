@@ -68,7 +68,7 @@ export function updateEventDuration () {
 export function updateStatus(data) {
   return {
     type: UPDATE_STATUS,
-    payload: data.status_name
+    payload: data
   }
 }
 

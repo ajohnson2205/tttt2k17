@@ -53,8 +53,12 @@ class TotalStatus extends Component {
         <div>
           {eventUserAggTimesRender}
 
-  
+
         </div>
+
+
+
+
       </div>
 
     )

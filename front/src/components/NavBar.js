@@ -69,7 +69,7 @@ class NavBar extends Component {
       <div className="navbar-container">
         <p>THIS IS THE NAVBAR. Are you not entertained?</p>
         <p>{determineWeekdayFromNumber(this.props.genericReducer.currentWeekday)} + {this.props.genericReducer.status}</p>
-        <p>{this.props.genericReducer.eventDuration}</p>
+        <p>{secondsToHHMMSS(this.props.genericReducer.eventDuration)}</p>
         <p>{this.props.genericReducer.currentTimestamp.toString()}
 
         </p>

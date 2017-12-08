@@ -39,7 +39,16 @@
   text-align: center;
 }
 
-.status-box-container {
+.statuses-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.status-boxes-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,36 +56,35 @@
 
 .status-box {
   border-style: solid;
-  border-color: black;
+  border-color: green;
   border-width: thin;
   height: 30px;
   width: 120px;
-  padding-top:5px;
+  line-height: 30px;
   font-weight: bold;
+  margin: 5px;
+  border-radius: 10px;
 
 }
-
 
 .status-box:hover {
   background-color: green;
   color: white;
+  border-radius: 10px;
 }
-
-
-.status-box a:focus
-{     background-color:yellow;    }
-
 
 .status-box-active {
   border-style: solid;
-  border-color: black;
+  border-color: green;
   border-width: thin;
   height: 30px;
   width: 120px;
-  padding-top:5px;
+  line-height: 30px;
   font-weight: bold;
   background-color: green;
   color: white;
+  margin: 5px;
+  border-radius: 10px;
 }
 
 .navbar-container {

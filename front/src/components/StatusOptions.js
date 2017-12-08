@@ -8,17 +8,21 @@ import
   {
   updateEventStartTimestamp
   }
-  from '../actions/actions.js'
+  from '../actions/actions.js';
 
 import
   {
   secondsToHHMMSS,
   determineWeekdayFromNumber
   }
-  from '../miscFunctions.js'
+  from '../miscFunctions.js';
+
+import breakImage from '../assets/break.png'
 
 
 import StatusButton from './StatusButton.js'
+
+
 
 class StatusOptions extends Component {
   constructor(props) {
@@ -57,18 +61,7 @@ class StatusOptions extends Component {
 
 
 
-  //Use the snapshots table to determine how long folks have been in different statuses
-    trackUserTimes = () => {
-      axios
-      .get('http://localhost:4000/api/usertimes')
-      .then((response) => {
-        console.log(response)
-        this.setState({userTimes: response.data})
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    }
+
 
 
   //Change the background color of the buttons
@@ -97,10 +90,6 @@ class StatusOptions extends Component {
           <StatusButton
             status={status}
             index={index}
-            eventStartTimestamp={this.props.genericReducer.eventStartTimestamp}
-            eventDuration={this.state.eventDuration}
-            currentTimestamp={this.props.genericReducer.currentTimestamp}
-            userID={this.state.userID}
             indexToUpdate={this.state.indexToUpdate} updateBackgroundColor={this.updateBackgroundColor}
             createEvent={this.createEvent}
           />
@@ -145,10 +134,15 @@ class StatusOptions extends Component {
 
 
 {/* Dynamic render of all of the statuses a user could choose */}
-        <div className="status-box-container">
-          {statusBoxes}
-        </div>
+        <div className="statuses-container">
+          <div className="statuses-boxes-container">
+            {statusBoxes}
+          </div>
+          <div>
+            <img src={this.props.genericReducer.imageURL}></img>
+          </div>
 
+        </div>
 
       </div>
     )

@@ -91,7 +91,6 @@ app.get('/statusoptions', (req, res, next) => {
 app.post('/api/snapshots', mainController.createSnapshot);
 app.post('/api/events', mainController.createEvent);
 app.get('/api/statuses', mainController.searchStatuses);
-app.get('/api/usertimes', mainController.trackUserTimes);
 app.get('/api/eventuseraggtimes', mainController.eventUserAggTimes);
 app.get('/api/statusesAvailableForChoosing', mainController.statusesAvailableForChoosing);
 

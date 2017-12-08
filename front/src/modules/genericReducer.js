@@ -39,7 +39,8 @@ export default function statuses (state = initialState, action) {
       })
     case UPDATE_STATUS :
       return Object.assign({}, state, {
-        status: action.payload
+        status: action.payload.status_name,
+        imageURL: action.payload.image_url
       })
     case UPDATE_EVENT_START_TIMESTAMP :
       return Object.assign({}, state, {
