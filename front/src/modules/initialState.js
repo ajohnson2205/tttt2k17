@@ -4,6 +4,7 @@ export default {
   currentTimestamp: new Date(),
   currentWeekday: '',
   currentSeconds: '',
+  formattedTime: '',
   eventDuration: 0,
   snapshotStatus: null,
   snapshotTimestamp: null,

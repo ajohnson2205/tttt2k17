@@ -28,14 +28,14 @@ class TotalStatus extends Component {
         var runningDuration = parseInt(event.status_duration) + this.props.genericReducer.eventDuration
         return(
           <div key={event.event_status}>
-            <div>{event.event_status} : {secondsToHHMMSS(runningDuration)}</div>
+            <div>{event.event_status.toUpperCase()} : {secondsToHHMMSS(runningDuration)}</div>
           </div>
         )
       }
       else {
         return(
           <div key={event.event_status}>
-            <div>{event.event_status} : {secondsToHHMMSS(event.status_duration)}</div>
+            <div>{event.event_status.toUpperCase()} : {secondsToHHMMSS(event.status_duration)}</div>
           </div>
         )
       }
@@ -49,14 +49,14 @@ class TotalStatus extends Component {
         var runningDuration = parseInt(event.status_duration) + this.props.genericReducer.eventDuration
         return(
           <div key={event.event_status}>
-            <div>{event.event_status} : {secondsToHHMMSS(runningDuration)}</div>
+            <div>{event.event_status.toUpperCase()} : {secondsToHHMMSS(runningDuration)}</div>
           </div>
         )
       }
       else {
         return(
           <div key={event.event_status}>
-            <div>{event.event_status} : {secondsToHHMMSS(event.status_duration)}</div>
+            <div>{event.event_status.toUpperCase()} : {secondsToHHMMSS(event.status_duration)}</div>
           </div>
         )
       }
@@ -71,11 +71,13 @@ class TotalStatus extends Component {
         <NavBar />
         <p>Statuses</p>
         <div>
+          <h3>Time Distribution: All Time</h3>
           {eventUserAggTimesRender}
         </div>
         <br />
         <br />
         <div>
+          <h3>Time Distribution: Today</h3>
           {eventUserAggTimesSameDayRender}
         </div>
         <div>

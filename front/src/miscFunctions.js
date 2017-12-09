@@ -43,3 +43,37 @@ export function determineWeekdayFromNumber(param) {
   }
   return day
 }
+
+
+//function to convert timestamp into HH:MM:SS AM/PM
+export function timestampToHHMMSS(timestampParam) {
+  let hours = timestampParam.getHours();
+  let minutes = timestampParam.getMinutes();
+  let seconds = timestampParam.getSeconds();
+  let addendum = "AM"
+
+  //get things straight for AM vs PM
+  if (hours > 12) {
+    hours = hours - 12;
+    addendum = "PM"
+  }
+
+  //get hours minutes and seconds to display zeroes as apppropriate
+  if (hours < 10) {
+    var displayHours = "0" + hours.toString()
+  } else
+    displayHours = hours
+
+  if (minutes < 10) {
+    var displayMinutes = "0" + minutes.toString()
+  } else
+    displayMinutes = minutes
+
+  if (seconds < 10) {
+    var displaySeconds = "0" + seconds.toString()
+  } else
+    displaySeconds = seconds
+
+  //put it all together
+  return displayHours + ":" + displayMinutes + ":" + displaySeconds + " " + addendum
+}

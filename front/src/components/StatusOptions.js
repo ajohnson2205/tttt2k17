@@ -13,7 +13,8 @@ import
 import
   {
   secondsToHHMMSS,
-  determineWeekdayFromNumber
+  determineWeekdayFromNumber,
+  timestampToHHMMSS
   }
   from '../miscFunctions.js';
 
@@ -122,14 +123,16 @@ class StatusOptions extends Component {
 
 {/* Basic information about what's going on now */}
         <div>
-          <h4>eventStartTimestamp: {this.props.genericReducer.eventStartTimestamp.toString()}</h4>
+          {/* <h4>eventStartTimestamp: {this.props.genericReducer.eventStartTimestamp.toString()}</h4>
           <h4>currentTimestamp: {this.props.genericReducer.currentTimestamp.toString()}</h4>
           <h3>eventStatus: {this.props.genericReducer.status}</h3>
           <h3>eventDuration: {this.props.genericReducer.eventDuration} </h3>
           <p>Happy {determineWeekdayFromNumber(this.props.genericReducer.currentWeekday)}!</p>
           <p>HH:MM:SS</p>
           <p>{secondsToHHMMSS(this.props.genericReducer.eventDuration)}</p>
+          <p>{timestampToHHMMSS(this.props.genericReducer.currentTimestamp)}</p> */}
           <h1 className="big-status">{this.props.genericReducer.status.toUpperCase()}</h1>
+
         </div>
 
 

@@ -89,14 +89,32 @@
 
 .navbar-container {
   background-color: yellow;
-  height: 250px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
 }
 
 .navbar-links {
   display: flex;
+  justify-content: space-around;
+  height: 30px;
+  background-color: green;
+  line-height: 30px;
+}
+
+.navbar-stats {
+  display: flex;
+  flex-direction: row;
   justify-content: space-around;
 }
 
 .big-status {
   font-size: 72px;
 }
+
+
+/*div {
+  border-width: thin;
+  border-color: black;
+  border-style: solid;
+}*/

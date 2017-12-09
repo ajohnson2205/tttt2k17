@@ -1,4 +1,9 @@
-import initialState from './initialState';
+import initialState from './initialState.js';
+import {
+  timestampToHHMMSS
+  }
+  from '../miscFunctions.js'
+
 import
   {
     WRITE_AVAILABLE_STATUSES,
@@ -18,50 +23,57 @@ export default function statuses (state = initialState, action) {
   // console.log(action.type)
   let newState;
   switch(action.type) {
+
     case WRITE_AVAILABLE_STATUSES + "_FULFILLED" :
       return Object.assign({}, state, { statusesAvailableForChoosing: action.payload.data
       })
+
     case UPDATE_THE_TIMESTAMP :
       return Object.assign({}, state, {
         currentTimestamp: action.payload.currentTimestamp,
         currentWeekday: action.payload.currentWeekday,
         currentSeconds: action.payload.currentSeconds,
-        eventDuration: state.eventDuration + 1
+        // eventDuration: state.eventDuration + 1,
+        eventDuration: Math.floor((action.payload.currentTimestamp.getTime() - state.eventStartTimestamp.getTime())/ 1000),
+        formattedTime: timestampToHHMMSS(action.payload.currentTimestamp)
       })
-    case GET_EVENT_USER_AGG_TIMES + "_FULFILLED":
+
+    case GET_EVENT_USER_AGG_TIMES + "_FULFILLED" :
       return Object.assign({}, state, {
         eventUserAggTimes: action.payload.data
       })
 
-      case EVENT_USER_AGG_TIMES_SAME_DAY + "_FULFILLED":
-        return Object.assign({}, state, {
-          eventUserAggTimesSameDay: action.payload.data
-        })
+    case EVENT_USER_AGG_TIMES_SAME_DAY + "_FULFILLED" :
+      return Object.assign({}, state, {
+        eventUserAggTimesSameDay: action.payload.data
+      })
 
-        case EVENT_USER_AGG_TIMES_LAST_SEVEN_DAYS + "_FULFILLED":
-          return Object.assign({}, state, {
-            eventUserAggTimesLastSevenDays: action.payload.data
-          })
+    case EVENT_USER_AGG_TIMES_LAST_SEVEN_DAYS + "_FULFILLED" :
+      return Object.assign({}, state, {
+        eventUserAggTimesLastSevenDays: action.payload.data
+      })
 
-          case EVENT_USER_AGG_TIMES_LAST_TWENTY_EIGHT_DAYS + "_FULFILLED":
-            return Object.assign({}, state, {
-              eventUserAggTimesLastTwentyEightDays: action.payload.data
-            })
-
+    case EVENT_USER_AGG_TIMES_LAST_TWENTY_EIGHT_DAYS + "_FULFILLED" :
+      return Object.assign({}, state, {
+        eventUserAggTimesLastTwentyEightDays: action.payload.data
+      })
 
     case UPDATE_EVENT_DURATION :
       return Object.assign({}, state, {
         eventDuration: 0
       })
+
     case UPDATE_STATUS :
       return Object.assign({}, state, {
-        status: action.payload.status_name,
+        status: action.payload.status_name.toUpperCase(),
         imageURL: action.payload.image_url
       })
+
     case UPDATE_EVENT_START_TIMESTAMP :
       return Object.assign({}, state, {
         eventStartTimestamp: action.payload
       })
+
     default :
       return state;
   }
