@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 
 import NavBar from './NavBar.js'
+import PieChartSameDay from './PieChartSameDay.js'
 
 import
   {
@@ -76,6 +77,9 @@ class TotalStatus extends Component {
         <br />
         <div>
           {eventUserAggTimesSameDayRender}
+        </div>
+        <div>
+          <PieChartSameDay />
         </div>
 
 
