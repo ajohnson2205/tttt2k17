@@ -53,7 +53,11 @@ export function timestampToHHMMSS(timestampParam) {
   let addendum = "AM"
 
   //get things straight for AM vs PM
-  if (hours > 12) {
+  if (hours = 12) {
+    addendum = "PM"
+  }
+
+  if (hours >= 13) {
     hours = hours - 12;
     addendum = "PM"
   }
